@@ -28,18 +28,46 @@ const Statistics = (props) => {
   return (
     <div>
       <Headers header={props.headers.statisticsHeader} />
-      <StatisticsLine text={"good"} value={props.clicks.good} />
-      <StatisticsLine text={"neutral"} value={props.clicks.neutral} />
-      <StatisticsLine text={"bad"} value={props.clicks.bad} />
-      <StatisticsLine text={"all"} value={props.clicks.all} />
-      <StatisticsLine
-        text={"average"}
-        value={props.clicks.average / props.clicks.all}
-      />
-      <StatisticsLine
-        text={"positive"}
-        value={(props.clicks.good / props.clicks.all) * 100}
-      />
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <StatisticsLine text={"good"} value={props.clicks.good} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine text={"neutral"} value={props.clicks.neutral} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine text={"bad"} value={props.clicks.bad} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine text={"all"} value={props.clicks.all} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine
+                text={"average"}
+                value={props.clicks.average / props.clicks.all}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <StatisticsLine
+                text={"positive"}
+                value={(props.clicks.good / props.clicks.all) * 100}
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
