@@ -10,9 +10,9 @@ const Button = (props) => {
 
 const StatisticsLine = (props) => {
   return (
-    <p>
+    <>
       {props.text} {props.value}
-    </p>
+    </>
   );
 };
 
@@ -64,6 +64,7 @@ const Statistics = (props) => {
                 text={"positive"}
                 value={(props.clicks.good / props.clicks.all) * 100}
               />
+              %
             </td>
           </tr>
         </tbody>
