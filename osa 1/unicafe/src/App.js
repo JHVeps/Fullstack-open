@@ -5,17 +5,11 @@ const Headers = (props) => {
 };
 
 const Statistics = (props) => {
-  console.log("Statistcst props: ", props);
   if (props.clicks.all === 0) {
     return (
       <div>
         <Headers header={props.headers.bottomText} />
-        <p>good {props.clicks.good}</p>
-        <p>neutral {props.clicks.neutral}</p>
-        <p>bad {props.clicks.bad}</p>
-        <p>all {props.clicks.all}</p>
-        <p>average {props.clicks.average}</p>
-        <p>positive 0</p>
+        <p>No feedback given</p>
       </div>
     );
   }
