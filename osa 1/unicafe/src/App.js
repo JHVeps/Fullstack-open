@@ -8,32 +8,47 @@ const Button = (props) => {
   return <button onClick={props.handleClick}>{props.title}</button>;
 };
 
+const StatisticsLine = (props) => {
+  return (
+    <p>
+      {props.text} {props.value}
+    </p>
+  );
+};
+
 const Statistics = (props) => {
   if (props.clicks.all === 0) {
     return (
       <div>
-        <Headers header={props.headers.bottomText} />
-        <p>No feedback given</p>
+        <Headers header={props.headers.statisticsHeader} />
+        <p>{props.headers.noFeedbackText}</p>
       </div>
     );
   }
   return (
     <div>
-      <Headers header={props.headers.bottomText} />
-      <p>good {props.clicks.good}</p>
-      <p>neutral {props.clicks.neutral}</p>
-      <p>bad {props.clicks.bad}</p>
-      <p>all {props.clicks.all}</p>
-      <p>average {props.clicks.average / props.clicks.all}</p>
-      <p>positive {(props.clicks.good / props.clicks.all) * 100}</p>
+      <Headers header={props.headers.statisticsHeader} />
+      <StatisticsLine text={"good"} value={props.clicks.good} />
+      <StatisticsLine text={"neutral"} value={props.clicks.neutral} />
+      <StatisticsLine text={"bad"} value={props.clicks.bad} />
+      <StatisticsLine text={"all"} value={props.clicks.all} />
+      <StatisticsLine
+        text={"average"}
+        value={props.clicks.average / props.clicks.all}
+      />
+      <StatisticsLine
+        text={"positive"}
+        value={(props.clicks.good / props.clicks.all) * 100}
+      />
     </div>
   );
 };
 
 const App = () => {
   const headers = {
-    topText: "give feedback",
-    bottomText: "statistics",
+    buttonsHeader: "give feedback",
+    statisticsHeader: "statistics",
+    noFeedbackText: "no feedback given",
   };
 
   const [clicks, setClicks] = useState({
@@ -75,7 +90,7 @@ const App = () => {
 
   return (
     <div>
-      <Headers header={headers.topText} />
+      <Headers header={headers.buttonsHeader} />
       <Button title="good" handleClick={handleGoodClick} />
       <Button title="neutral" handleClick={handleNeutralClick} />
       <Button title="bad" handleClick={handleBadClick} />
