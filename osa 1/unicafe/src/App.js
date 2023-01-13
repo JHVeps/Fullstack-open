@@ -4,8 +4,36 @@ const Headers = (props) => {
   return <h1>{props.header}</h1>;
 };
 
+const Statistics = (props) => {
+  console.log("Statistcst props: ", props);
+  if (props.clicks.all === 0) {
+    return (
+      <div>
+        <Headers header={props.headers.bottomText} />
+        <p>good {props.clicks.good}</p>
+        <p>neutral {props.clicks.neutral}</p>
+        <p>bad {props.clicks.bad}</p>
+        <p>all {props.clicks.all}</p>
+        <p>average {props.clicks.average}</p>
+        <p>positive 0</p>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <Headers header={props.headers.bottomText} />
+      <p>good {props.clicks.good}</p>
+      <p>neutral {props.clicks.neutral}</p>
+      <p>bad {props.clicks.bad}</p>
+      <p>all {props.clicks.all}</p>
+      <p>average {props.clicks.average / props.clicks.all}</p>
+      <p>positive {(props.clicks.good / props.clicks.all) * 100}</p>
+    </div>
+  );
+};
+
 const App = () => {
-  const header = {
+  const headers = {
     topText: "give feedback",
     bottomText: "statistics",
   };
@@ -46,36 +74,14 @@ const App = () => {
     };
     setClicks(newClicks);
   };
-  if (clicks.all === 0) {
-    return (
-      <div>
-        <Headers header={header.topText} />
-        <button onClick={handleGoodClick}>good</button>
-        <button onClick={handleNeutralClick}>neutral</button>
-        <button onClick={handleBadClick}>bad</button>
-        <Headers header={header.bottomText} />
-        <p>good {clicks.good}</p>
-        <p>neutral {clicks.neutral}</p>
-        <p>bad {clicks.bad}</p>
-        <p>all {clicks.all}</p>
-        <p>average {clicks.average}</p>
-        <p>positive 0</p>
-      </div>
-    );
-  }
+
   return (
     <div>
-      <Headers header={header.topText} />
+      <Headers header={headers.topText} />
       <button onClick={handleGoodClick}>good</button>
       <button onClick={handleNeutralClick}>neutral</button>
       <button onClick={handleBadClick}>bad</button>
-      <Headers header={header.bottomText} />
-      <p>good {clicks.good}</p>
-      <p>neutral {clicks.neutral}</p>
-      <p>bad {clicks.bad}</p>
-      <p>all {clicks.all}</p>
-      <p>average {clicks.average / clicks.all}</p>
-      <p>positive {(clicks.good / clicks.all) * 100}</p>
+      <Statistics headers={headers} clicks={clicks} />
     </div>
   );
 };
