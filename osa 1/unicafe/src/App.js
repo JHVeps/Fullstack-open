@@ -4,6 +4,10 @@ const Headers = (props) => {
   return <h1>{props.header}</h1>;
 };
 
+const Button = (props) => {
+  return <button onClick={props.handleClick}>{props.title}</button>;
+};
+
 const Statistics = (props) => {
   if (props.clicks.all === 0) {
     return (
@@ -72,9 +76,9 @@ const App = () => {
   return (
     <div>
       <Headers header={headers.topText} />
-      <button onClick={handleGoodClick}>good</button>
-      <button onClick={handleNeutralClick}>neutral</button>
-      <button onClick={handleBadClick}>bad</button>
+      <Button title="good" handleClick={handleGoodClick} />
+      <Button title="neutral" handleClick={handleNeutralClick} />
+      <Button title="bad" handleClick={handleBadClick} />
       <Statistics headers={headers} clicks={clicks} />
     </div>
   );
