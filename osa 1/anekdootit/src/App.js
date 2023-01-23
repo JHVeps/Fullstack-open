@@ -17,26 +17,50 @@ const App = () => {
     .map(parseFloat);
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState(defaultPointsArray);
+  const [mostVotes, setMostVotes] = useState(0);
+  const [mostVotedAnecdote, setMostVotedAnecdote] = useState(0);
 
-  const handleClick = () => {
+  const handleNextClick = () => {
     const random = Math.floor(Math.random() * 6);
     setSelected(random);
+    setMostVotes(getMostVotes());
+    setMostVotedAnecdote(getMostVotedAnecdote());
   };
 
-  const handleCopy = () => {
-    const copy = { ...points };
+  const handleVoteClick = () => {
+    const copy = [...points];
     copy[selected] += 1;
     setPoints(copy);
+    setMostVotes(getMostVotes());
+    setMostVotedAnecdote(getMostVotedAnecdote());
+  };
+
+  const getMostVotes = () => {
+    const copy = [...points];
+    const votes = Math.max(...copy);
+
+    return votes;
+  };
+
+  const getMostVotedAnecdote = () => {
+    const copyOfPoints = [...points];
+    let i = copyOfPoints.indexOf(Math.max(...copyOfPoints));
+
+    return i;
   };
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       <div>
-        <button onClick={handleCopy}>vote</button>
-        <button onClick={handleClick}>next anecdote</button>
+        <button onClick={handleVoteClick}>vote</button>
+        <button onClick={handleNextClick}>next anecdote</button>
       </div>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[mostVotedAnecdote]}</p>
+      <p>has {mostVotes} votes</p>
     </div>
   );
 };
