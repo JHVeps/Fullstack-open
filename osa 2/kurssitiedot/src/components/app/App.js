@@ -5,7 +5,9 @@ const App = () => {
   const course = data;
   return (
     <div className="App">
-      <Course course={course} />
+      {course.map((courses) => (
+        <Course course={courses} key={courses.id} />
+      ))}
     </div>
   );
 };

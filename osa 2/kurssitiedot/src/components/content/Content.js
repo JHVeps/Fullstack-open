@@ -7,7 +7,7 @@ const Content = (props) => {
   return (
     <div className="content">
       {props.parts.map((part) => (
-        <Part part={part.name} exercises={part.exercises} key={part.name} />
+        <Part part={part.name} exercises={part.exercises} key={part.id} />
       ))}
       <b>total of {total} exercises</b>
     </div>
