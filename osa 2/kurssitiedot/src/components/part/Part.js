@@ -2,7 +2,7 @@ import React from "react";
 
 const Part = (props) => {
   return (
-    <div>
+    <div className="part">
       <p>
         {props.part} {props.exercises}
       </p>
