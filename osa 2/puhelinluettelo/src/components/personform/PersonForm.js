@@ -1,8 +1,28 @@
 import React from "react";
+import personsServices from "../../services/persons.services";
 
 const PersonForm = (props) => {
+  const addPerson = (event) => {
+    event.preventDefault();
+    const personObject = {
+      name: props.newName,
+      number: props.newNumber,
+    };
+
+    if (props.persons.find(({ name }) => name === personObject.name)) {
+      alert(`${personObject.name} is already added to phonebook`);
+      return;
+    }
+
+    personsServices.create(personObject).then((response) => {
+      props.setPersons(props.persons.concat(response));
+    });
+    props.setNewName("");
+    props.setNewNumber("");
+  };
+
   return (
-    <form onSubmit={props.addPerson}>
+    <form onSubmit={addPerson}>
       <div>
         name:
         <input
@@ -18,7 +38,7 @@ const PersonForm = (props) => {
         />
       </div>
       <div>
-        <button type="submit">add</button>
+        <button type="submit">ADD</button>
       </div>
     </form>
   );

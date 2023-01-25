@@ -10,25 +10,6 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [nameForSearch, setNameForSearch] = useState("");
 
-  const addPerson = (event) => {
-    event.preventDefault();
-    const personObject = {
-      name: newName,
-      number: newNumber,
-    };
-
-    if (persons.find(({ name }) => name === personObject.name)) {
-      alert(`${personObject.name} is already added to phonebook`);
-      return;
-    }
-
-    personsServices.create(personObject).then((response) => {
-      setPersons(persons.concat(response));
-    });
-    setNewName("");
-    setNewNumber("");
-  };
-
   useEffect(() => {
     personsServices.getAll().then((initialPersons) => {
       setPersons(initialPersons);
@@ -44,14 +25,19 @@ const App = () => {
       />
       <h2>add a new</h2>
       <PersonForm
-        addPerson={addPerson}
+        persons={persons}
+        setPersons={setPersons}
         newName={newName}
         setNewName={setNewName}
         newNumber={newNumber}
         setNewNumber={setNewNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} nameForSearch={nameForSearch} />
+      <Persons
+        persons={persons}
+        setPersons={setPersons}
+        nameForSearch={nameForSearch}
+      />
     </div>
   );
 };
