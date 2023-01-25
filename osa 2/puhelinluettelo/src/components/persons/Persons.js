@@ -3,8 +3,13 @@ import personsServices from "../../services/persons.services";
 
 const Persons = (props) => {
   const removePerson = (_id) => {
-    personsServices.deletePerson(_id);
-    props.setPersons(props.persons.filter((p) => p.id !== _id));
+    const person = props.persons.find((p) => p.id === _id);
+
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      personsServices.deletePerson(_id);
+      props.setPersons(props.persons.filter((p) => p.id !== _id));
+    }
+    return;
   };
 
   return (
