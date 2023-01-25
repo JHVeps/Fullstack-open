@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-//import { data } from "./data/data";
 import Filter from "./components/filter/Filter";
 import PersonForm from "./components/personform/PersonForm";
 import Persons from "./components/persons/Persons";
 
 const App = () => {
-  //const phoneBookData = data;
-
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [nameForSearch, setNameForSearch] = useState("");
+
+  const baseUrl = "http://localhost:3001/persons";
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -25,9 +24,11 @@ const App = () => {
       return;
     }
 
-    setPersons(persons.concat(personObject));
-    setNewName("");
-    setNewNumber("");
+    axios.post(baseUrl, personObject).then((response) => {
+      setPersons(persons.concat(response.data));
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const App = () => {
       setPersons(response.data);
     };
 
-    const promise = axios.get("http://localhost:3001/persons");
+    const promise = axios.get(baseUrl);
     promise.then(eventHandler);
   }, []);
 
@@ -46,6 +47,7 @@ const App = () => {
         nameForSearch={nameForSearch}
         setNameForSearch={setNameForSearch}
       />
+      <h2>add a new</h2>
       <PersonForm
         addPerson={addPerson}
         newName={newName}
