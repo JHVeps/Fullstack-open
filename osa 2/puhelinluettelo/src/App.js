@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { data } from "./data/data";
+import { useState, useEffect } from "react";
+import axios from "axios";
+//import { data } from "./data/data";
 import Filter from "./components/filter/Filter";
 import PersonForm from "./components/personform/PersonForm";
 import Persons from "./components/persons/Persons";
 
 const App = () => {
-  const phoneBookData = data;
+  //const phoneBookData = data;
 
-  const [persons, setPersons] = useState(phoneBookData);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [nameForSearch, setNameForSearch] = useState("");
@@ -28,6 +29,15 @@ const App = () => {
     setNewName("");
     setNewNumber("");
   };
+
+  useEffect(() => {
+    const eventHandler = (response) => {
+      setPersons(response.data);
+    };
+
+    const promise = axios.get("http://localhost:3001/persons");
+    promise.then(eventHandler);
+  }, []);
 
   return (
     <div>

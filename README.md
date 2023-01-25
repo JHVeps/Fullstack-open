@@ -11,3 +11,4 @@ kaikki tehty
 ## osa 2
 
 a kaikki tehty
+b kaikki tehty
