@@ -5,12 +5,12 @@ const Persons = (props) => {
     <div>
       {props.persons
         .filter((person) => {
-          if (props.searchText === "") {
+          if (props.nameForSearch === "") {
             return person;
           } else if (
             person.name
               .toLocaleLowerCase()
-              .includes(props.searchText.toLocaleLowerCase())
+              .includes(props.nameForSearch.toLocaleLowerCase())
           ) {
             return person;
           }

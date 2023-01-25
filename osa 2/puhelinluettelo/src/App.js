@@ -10,7 +10,7 @@ const App = () => {
   const [persons, setPersons] = useState(phoneBookData);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const [nameForSearch, setNameForSearch] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -32,7 +32,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter searchText={searchText} setSearchText={setSearchText} />
+      <Filter
+        nameForSearch={nameForSearch}
+        setNameForSearch={setNameForSearch}
+      />
       <PersonForm
         addPerson={addPerson}
         newName={newName}
@@ -41,7 +44,7 @@ const App = () => {
         setNewNumber={setNewNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} searchText={searchText} />
+      <Persons persons={persons} nameForSearch={nameForSearch} />
     </div>
   );
 };

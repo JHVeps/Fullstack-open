@@ -5,8 +5,8 @@ const Filter = (props) => {
     <div>
       filter shown with:
       <input
-        value={props.searchText}
-        onChange={(e) => props.setSearchText(e.target.value)}
+        value={props.nameForSearch}
+        onChange={(e) => props.setNameForSearch(e.target.value)}
       />
     </div>
   );
