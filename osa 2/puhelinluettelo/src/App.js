@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { data } from "./data/data";
+import Filter from "./components/filter/Filter";
+import PersonForm from "./components/personform/PersonForm";
+import Persons from "./components/persons/Persons";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-1231244" },
-    { name: "Ada Lovelace", number: "39-44-5323523" },
-    { name: "Dan Abramov", number: "12-43-234345" },
-    { name: "Mary Poppendieck", number: "39-23-6423122" },
-  ]);
+  const phoneBookData = data;
+
+  const [persons, setPersons] = useState(phoneBookData);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -24,7 +25,6 @@ const App = () => {
     }
 
     setPersons(persons.concat(personObject));
-
     setNewName("");
     setNewNumber("");
   };
@@ -32,49 +32,16 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          filter shown with:
-          <input
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-        </div>
-        <div>
-          name:
-          <input value={newName} onChange={(e) => setNewName(e.target.value)} />
-        </div>
-        <div>
-          number:
-          <input
-            value={newNumber}
-            onChange={(e) => setNewNumber(e.target.value)}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-
+      <Filter searchText={searchText} setSearchText={setSearchText} />
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+      />
       <h2>Numbers</h2>
-      {persons
-        .filter((person) => {
-          if (searchText === "") {
-            return person;
-          } else if (
-            person.name
-              .toLocaleLowerCase()
-              .includes(searchText.toLocaleLowerCase())
-          ) {
-            return person;
-          }
-          return null;
-        })
-        .map((person) => (
-          <p key={person.name}>
-            {person.name} {person.number}
-          </p>
-        ))}
+      <Persons persons={persons} searchText={searchText} />
     </div>
   );
 };
