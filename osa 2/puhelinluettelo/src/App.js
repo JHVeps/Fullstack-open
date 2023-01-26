@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [nameForSearch, setNameForSearch] = useState("");
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState(null);
 
   useEffect(() => {
     personsServices.getAll().then((initialPersons) => {
@@ -21,7 +21,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification message={notificationMessage} />
       <Filter
         nameForSearch={nameForSearch}
         setNameForSearch={setNameForSearch}
@@ -34,15 +34,14 @@ const App = () => {
         setNewName={setNewName}
         newNumber={newNumber}
         setNewNumber={setNewNumber}
-        successMessage={successMessage}
-        setSuccessMessage={setSuccessMessage}
+        setNotificationMessage={setNotificationMessage}
       />
       <h2>Numbers</h2>
       <Persons
         persons={persons}
         setPersons={setPersons}
         nameForSearch={nameForSearch}
-        setSuccessMessage={setSuccessMessage}
+        setNotificationMessage={setNotificationMessage}
       />
     </div>
   );

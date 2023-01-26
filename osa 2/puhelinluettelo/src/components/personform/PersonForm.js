@@ -9,7 +9,7 @@ const PersonForm = (props) => {
     setNewName,
     newNumber,
     setNewNumber,
-    setSuccessMessage,
+    setNotificationMessage,
   } = props;
   const addPerson = (event) => {
     event.preventDefault();
@@ -37,10 +37,19 @@ const PersonForm = (props) => {
             );
             setNewName("");
             setNewNumber("");
-            setSuccessMessage(`Updated ${personObject.name}`);
+            setNotificationMessage(`Updated ${personObject.name}`);
             setTimeout(() => {
-              setSuccessMessage(null);
+              setNotificationMessage(null);
             }, 5000);
+          })
+          .catch((error) => {
+            setNotificationMessage(
+              `Error! Person '${personObject.name}' was already removed from server`
+            );
+            setTimeout(() => {
+              setNotificationMessage(null);
+            }, 5000);
+            setPersons(persons.filter((p) => p.id !== newPerson.id));
           });
       }
       return;
@@ -50,9 +59,9 @@ const PersonForm = (props) => {
     });
     setNewName("");
     setNewNumber("");
-    setSuccessMessage(`Added ${personObject.name}`);
+    setNotificationMessage(`Added ${personObject.name}`);
     setTimeout(() => {
-      setSuccessMessage(null);
+      setNotificationMessage(null);
     }, 5000);
   };
   return (
