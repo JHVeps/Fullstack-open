@@ -2,26 +2,31 @@ import React from "react";
 import personsServices from "../../services/persons.services";
 
 const Persons = (props) => {
+  const { persons, setPersons, setSuccessMessage, nameForSearch } = props;
   const removePerson = (_id) => {
     const person = props.persons.find((p) => p.id === _id);
 
     if (window.confirm(`Delete ${person.name} ?`)) {
       personsServices.deletePerson(_id);
-      props.setPersons(props.persons.filter((p) => p.id !== _id));
+      setPersons(persons.filter((p) => p.id !== _id));
+      setSuccessMessage(`Deleted ${person.name}`);
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
     }
     return;
   };
 
   return (
     <div>
-      {props.persons
+      {persons
         .filter((person) => {
-          if (props.nameForSearch === "") {
+          if (nameForSearch === "") {
             return person;
           } else if (
             person.name
               .toLocaleLowerCase()
-              .includes(props.nameForSearch.toLocaleLowerCase())
+              .includes(nameForSearch.toLocaleLowerCase())
           ) {
             return person;
           }

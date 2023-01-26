@@ -2,8 +2,15 @@ import React from "react";
 import personsServices from "../../services/persons.services";
 
 const PersonForm = (props) => {
-  const { persons, setPersons, newName, setNewName, newNumber, setNewNumber } =
-    props;
+  const {
+    persons,
+    setPersons,
+    newName,
+    setNewName,
+    newNumber,
+    setNewNumber,
+    setSuccessMessage,
+  } = props;
   const addPerson = (event) => {
     event.preventDefault();
     const personObject = {
@@ -30,6 +37,10 @@ const PersonForm = (props) => {
             );
             setNewName("");
             setNewNumber("");
+            setSuccessMessage(`Updated ${personObject.name}`);
+            setTimeout(() => {
+              setSuccessMessage(null);
+            }, 5000);
           });
       }
       return;
@@ -39,6 +50,10 @@ const PersonForm = (props) => {
     });
     setNewName("");
     setNewNumber("");
+    setSuccessMessage(`Added ${personObject.name}`);
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 5000);
   };
   return (
     <form onSubmit={addPerson}>
