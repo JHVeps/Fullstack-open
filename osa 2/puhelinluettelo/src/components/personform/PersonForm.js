@@ -2,39 +2,55 @@ import React from "react";
 import personsServices from "../../services/persons.services";
 
 const PersonForm = (props) => {
+  const { persons, setPersons, newName, setNewName, newNumber, setNewNumber } =
+    props;
   const addPerson = (event) => {
     event.preventDefault();
     const personObject = {
-      name: props.newName,
-      number: props.newNumber,
+      name: newName,
+      number: newNumber,
     };
 
-    if (props.persons.find(({ name }) => name === personObject.name)) {
-      alert(`${personObject.name} is already added to phonebook`);
+    if (persons.find(({ name }) => name === personObject.name)) {
+      if (
+        window.confirm(
+          `${personObject.name} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const newPerson = persons.find(
+          (person) => person.name === personObject.name
+        );
+        personsServices
+          .updatePerson(newPerson.id, personObject)
+          .then((response) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== newPerson.id ? person : response
+              )
+            );
+            setNewName("");
+            setNewNumber("");
+          });
+      }
       return;
     }
-
     personsServices.create(personObject).then((response) => {
-      props.setPersons(props.persons.concat(response));
+      setPersons(persons.concat(response));
     });
-    props.setNewName("");
-    props.setNewNumber("");
+    setNewName("");
+    setNewNumber("");
   };
-
   return (
     <form onSubmit={addPerson}>
       <div>
         name:
-        <input
-          value={props.newName}
-          onChange={(e) => props.setNewName(e.target.value)}
-        />
+        <input value={newName} onChange={(e) => setNewName(e.target.value)} />
       </div>
       <div>
         number:
         <input
-          value={props.newNumber}
-          onChange={(e) => props.setNewNumber(e.target.value)}
+          value={newNumber}
+          onChange={(e) => setNewNumber(e.target.value)}
         />
       </div>
       <div>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
+import personsServices from "./services/persons.services";
 import Filter from "./components/filter/Filter";
 import PersonForm from "./components/personform/PersonForm";
 import Persons from "./components/persons/Persons";
-import personsServices from "./services/persons.services";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
