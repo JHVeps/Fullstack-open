@@ -9,10 +9,35 @@ const Countries = (props) => {
   if (countryForSearch === "") {
     return <p>Too many matches, specify another filter</p>;
   }
+
   return (
     <>
       {countries
         .filter((country) => {
+          if (
+            countryForSearch.toLowerCase() === country.name.common.toLowerCase()
+          ) {
+            return (
+              <>
+                <h1>{country.name.common}</h1>
+                <p>
+                  {country.capital.map((cityName) => (
+                    <li key={cityName}>{cityName}</li>
+                  ))}
+                  }
+                </p>
+                <p>area {country.area}</p>
+                <h4>languages</h4>
+                {/* <p>
+                  {country.languages.map((language) => (
+                    <li key={language}>{language}</li>
+                  ))}
+                  }
+                </p> */}
+                <img style={{ height: 50 }} src={country.flags.png} alt="..." />
+              </>
+            );
+          }
           if (
             country.name.common
               .toLocaleLowerCase()
