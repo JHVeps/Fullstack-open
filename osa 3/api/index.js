@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 let persons = [
   {
@@ -24,6 +25,12 @@ let persons = [
   },
 ];
 
+//Tehtävänannon mukainen id:n generointi funktio
+const generateId = () => {
+  const maxId = Math.floor(Math.random() * 1000000);
+  return maxId;
+};
+
 app.get("/api/persons", (req, res) => {
   res.json(persons);
 });
@@ -31,6 +38,27 @@ app.get("/api/persons", (req, res) => {
 app.get("/api/persons/info", (req, res) => {
   const time = new Date();
   res.json(`Phonebook has info for ${persons.length} people. ${time}`);
+});
+
+app.post("/api/persons", (req, res) => {
+  const body = req.body;
+  console.log(body);
+
+  if (!body) {
+    return res.status(400).json({
+      error: "content missing",
+    });
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  };
+
+  persons = persons.concat(person);
+
+  res.json(person);
 });
 
 app.get("/api/persons/:id", (req, res) => {
