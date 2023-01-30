@@ -30,6 +30,14 @@ const generateId = () => {
   const maxId = Math.floor(Math.random() * 1000000);
   return maxId;
 };
+//Tarkistetaan onko nimi varattu
+const isUsed = (name) => {
+  if (persons.find((person) => person.name === name)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
@@ -44,9 +52,15 @@ app.post("/api/persons", (req, res) => {
   const body = req.body;
   console.log(body);
 
-  if (!body) {
+  if (!body.name || !body.number) {
     return res.status(400).json({
       error: "content missing",
+    });
+  }
+
+  if (isUsed(body.name)) {
+    return res.status(400).json({
+      error: "name must be unique",
     });
   }
 
