@@ -1,5 +1,3 @@
-//mongodb+srv://<username>:<password>@cluster0.htxgz.mongodb.net/?retryWrites=true&w=majority
-
 const mongoose = require("mongoose");
 
 if (process.argv.length < 3) {
