@@ -6,7 +6,7 @@ const cors = require("cors");
 const Person = require("./models/person");
 const app = express();
 
-app.use(express.static("build"));
+//app.use(express.static("build"));
 app.use(express.json());
 app.use(cors());
 app.use(
@@ -84,26 +84,7 @@ app.post("/api/persons", (req, res, next) => {
   });
 });
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
-};
-
-// olemattomien osoitteiden käsittely
-app.use(unknownEndpoint);
-
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
-
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  }
-
-  next(error);
-};
-// virheellisten pyyntöjen käsittely
-app.use(errorHandler);
-
-app.put("/api/persons:id", (req, res, next) => {
+app.put("/api/persons/:id", (req, res, next) => {
   const body = req.body;
 
   const person = {
@@ -140,6 +121,25 @@ app.delete("/api/persons/:id", (req, res, next) => {
     })
     .catch((error) => next(error));
 });
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+// olemattomien osoitteiden käsittely
+app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+// virheellisten pyyntöjen käsittely
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
