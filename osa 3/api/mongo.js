@@ -26,8 +26,9 @@ const person = new Person({
   number: number,
 });
 
-if (name != undefined && number != undefined) {
-  person.save().then((result) => {
+if (name !== undefined && number !== undefined) {
+  // eslint-disable-next-line no-unused-vars
+  person.save().then((res) => {
     console.log("person saved!");
   });
 }

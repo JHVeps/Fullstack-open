@@ -1,13 +1,15 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 
+// eslint-disable-next-line no-undef
 const url = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", false);
 
 mongoose
   .connect(url)
-  .then((result) => {
+  // eslint-disable-next-line no-unused-vars
+  .then((res) => {
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
@@ -15,8 +17,14 @@ mongoose
   });
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+  },
+  number: {
+    type: String,
+  },
 });
 
 personSchema.set("toJSON", {
