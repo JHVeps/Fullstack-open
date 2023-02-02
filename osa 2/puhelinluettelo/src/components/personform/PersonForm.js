@@ -10,6 +10,7 @@ const PersonForm = (props) => {
     newNumber,
     setNewNumber,
     setNotificationMessage,
+    setErrorNotificationMessage,
   } = props;
   const addPerson = (event) => {
     event.preventDefault();
@@ -43,9 +44,7 @@ const PersonForm = (props) => {
             }, 5000);
           })
           .catch((error) => {
-            setNotificationMessage(
-              `Error! Person '${personObject.name}' was already removed from server`
-            );
+            setNotificationMessage(`Error! '${error.response.data}' !`);
             setTimeout(() => {
               setNotificationMessage(null);
             }, 5000);
@@ -54,15 +53,25 @@ const PersonForm = (props) => {
       }
       return;
     }
-    personsServices.create(personObject).then((response) => {
-      setPersons(persons.concat(response));
-    });
-    setNewName("");
-    setNewNumber("");
-    setNotificationMessage(`Added ${personObject.name}`);
-    setTimeout(() => {
-      setNotificationMessage(null);
-    }, 5000);
+    personsServices
+      .create(personObject)
+      .then((response) => {
+        setPersons(persons.concat(response));
+        setNewName("");
+        setNewNumber("");
+        setNotificationMessage(`Added ${personObject.name}`);
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
+      })
+      .catch((error) => {
+        console.log("Error: ", error.response.data);
+        setErrorNotificationMessage(error.response.data);
+        setTimeout(() => {
+          setErrorNotificationMessage(null);
+        }, 5000);
+      });
+    return;
   };
   return (
     <form onSubmit={addPerson}>

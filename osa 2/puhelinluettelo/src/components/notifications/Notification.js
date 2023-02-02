@@ -4,6 +4,7 @@ const Notification = ({ message }) => {
   if (message === null) {
     return null;
   }
+
   const messageSplit = message.split(" ");
   let type = messageSplit[0];
 
