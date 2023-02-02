@@ -10,10 +10,10 @@ kaikki tehty
 
 ## osa 2
 
-a kaikki tehty
-b kaikki tehty
-c kaikki tehty
-d kaikki tehty
+a kaikki tehty</br>
+b kaikki tehty</br>
+c kaikki tehty</br>
+d kaikki tehty</br>
 e 2.16-2.17 tehty, 2.18 kesken, 2.19 - 2.20 ei aloitettu
 
 ## osa 3
