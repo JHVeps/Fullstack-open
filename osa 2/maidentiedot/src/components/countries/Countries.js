@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Countries = (props) => {
   const { countries, countryForSearch } = props;
+
   const rowsPerPage = 10;
 
   console.log("country for search:", countryForSearch);
@@ -15,30 +17,6 @@ const Countries = (props) => {
       {countries
         .filter((country) => {
           if (
-            countryForSearch.toLowerCase() === country.name.common.toLowerCase()
-          ) {
-            return (
-              <>
-                <h1>{country.name.common}</h1>
-                <p>
-                  {country.capital.map((cityName) => (
-                    <li key={cityName}>{cityName}</li>
-                  ))}
-                  }
-                </p>
-                <p>area {country.area}</p>
-                <h4>languages</h4>
-                {/* <p>
-                  {country.languages.map((language) => (
-                    <li key={language}>{language}</li>
-                  ))}
-                  }
-                </p> */}
-                <img style={{ height: 50 }} src={country.flags.png} alt="..." />
-              </>
-            );
-          }
-          if (
             country.name.common
               .toLocaleLowerCase()
               .includes(countryForSearch.toLocaleLowerCase())
@@ -51,7 +29,18 @@ const Countries = (props) => {
         .slice(0, rowsPerPage)
 
         .map((country) => (
-          <p key={country.flag}>{country.name.common}</p>
+          <>
+            <p key={country.flag}>
+              {country.name.common}
+
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/country/${country.name.common.toLocaleLowerCase()}`}
+              >
+                <button>SHOW</button>
+              </Link>
+            </p>
+          </>
         ))}
     </>
   );

@@ -21,11 +21,7 @@ const Home = () => {
         countryForSearch={countryForSearch}
         setCountryForSearch={setCountryForSearch}
       />
-      <Countries
-        countries={countries}
-        setCountries={setCountries}
-        countryForSearch={countryForSearch}
-      />
+      <Countries countries={countries} countryForSearch={countryForSearch} />
     </div>
   );
 };
