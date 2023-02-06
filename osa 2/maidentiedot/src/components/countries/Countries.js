@@ -3,7 +3,6 @@ import Country from "../country/Country";
 
 const Countries = (props) => {
   const { countries, countryForSearch } = props;
-
   const rowsPerPage = 10;
 
   if (!countries) {
@@ -38,6 +37,7 @@ const Countries = (props) => {
               area={country.area}
               languages={country.languages}
               flags={country.flags}
+              capitalInfo={country.capitalInfo}
             />
           </div>
         ))}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Weather from "../weather/Weather";
 
 const Country = (props) => {
-  const { name, capital, area, languages, flags } = props;
+  const { name, capital, area, languages, flags, capitalInfo } = props;
   const [showInfo, setShowInfo] = useState(false);
 
   const handleShowInfo = () => {
@@ -34,7 +34,7 @@ const Country = (props) => {
           <>
             {capital.map((cityName) => (
               <div key={cityName}>
-                <Weather capital={cityName} />
+                <Weather capital={cityName} capitalInfo={capitalInfo} />
               </div>
             ))}
           </>
