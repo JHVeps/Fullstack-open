@@ -7,14 +7,15 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-const getCountryByName = (name) => {
-  const request = axios.get(`${baseUrl}/name/${name}`);
-  return request.then((response) => response.data);
-};
+//Not used atm
+// const getCountryByName = (name) => {
+//   const request = axios.get(`${baseUrl}/name/${name}`);
+//   return request.then((response) => response.data);
+// };
 
 const exportedObject = {
   getAll,
-  getCountryByName,
+  // getCountryByName,
 };
 
 export default exportedObject;

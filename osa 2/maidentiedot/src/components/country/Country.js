@@ -9,11 +9,9 @@ const Country = (props) => {
   };
 
   return (
-    <>
+    <div>
       <div>
-        <p>
-          {name} <button onClick={handleShowInfo}>SHOW</button>
-        </p>
+        {name} <button onClick={handleShowInfo}>SHOW</button>
       </div>
 
       {showInfo && (
@@ -34,7 +32,7 @@ const Country = (props) => {
           <img style={{ height: 70 }} src={flags.png} alt="..." />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
