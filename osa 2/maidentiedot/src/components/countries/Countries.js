@@ -1,12 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Country from "../pages/country/Country";
 
 const Countries = (props) => {
   const { countries, countryForSearch } = props;
 
   const rowsPerPage = 10;
 
+  console.log("countries: ", countries);
   console.log("country for search:", countryForSearch);
+
+  if (!countries) {
+    return <h1>Loading...</h1>;
+  }
 
   if (countryForSearch === "") {
     return <p>Too many matches, specify another filter</p>;
@@ -31,14 +36,20 @@ const Countries = (props) => {
         .map((country) => (
           <>
             <p key={country.flag}>
-              {country.name.common}
+              <Country
+                name={country.name.common}
+                capital={country.capital}
+                area={country.area}
+                languages={country.languages}
+                flags={country.flags}
+              />
 
-              <Link
+              {/* <Link
                 style={{ textDecoration: "none" }}
                 to={`/country/${country.name.common.toLocaleLowerCase()}`}
               >
                 <button>SHOW</button>
-              </Link>
+              </Link> */}
             </p>
           </>
         ))}

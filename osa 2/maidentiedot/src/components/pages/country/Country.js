@@ -1,43 +1,39 @@
-import React, { useState, useEffect } from "react";
-import countryServices from "../../../services/country.services";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 
-const Country = () => {
-  const { name } = useParams();
-  const [countryData, setCountryData] = useState(null);
+const Country = (props) => {
+  const { name, capital, area, languages, flags } = props;
+  const [showInfo, setShowInfo] = useState(false);
 
-  useEffect(() => {
-    countryServices.getCountryByName(name).then((data) => {
-      setCountryData(data);
-    });
-  }, [name]);
-
-  if (!countryData) {
-    return null;
-  }
-
-  console.log("Country data: ", countryData);
+  const handleShowInfo = () => {
+    setShowInfo(!showInfo);
+  };
 
   return (
     <>
-      {countryData.map((country) => (
-        <div key={country.flag}>
-          <h1>{country.name.common}</h1>
+      <div>
+        <p>
+          {name} <button onClick={handleShowInfo}>SHOW</button>
+        </p>
+      </div>
+
+      {showInfo && (
+        <div>
+          <h1>{name}</h1>
           <>
-            {country.capital.map((cityName) => (
+            {capital.map((cityName) => (
               <h3 key={cityName}>{cityName}</h3>
             ))}
           </>
-          <p>Area: {country.area}</p>
+          <p>Area: {area}</p>
           <h3>languages:</h3>
           <p>
-            {Object.values(country.languages).map((language) => (
+            {Object.values(languages).map((language) => (
               <li key={language}>{language}</li>
             ))}
           </p>
-          <img style={{ height: 70 }} src={country.flags.png} alt="..." />
+          <img style={{ height: 70 }} src={flags.png} alt="..." />
         </div>
-      ))}
+      )}
     </>
   );
 };
