@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Weather from "../weather/Weather";
 
 const Country = (props) => {
   const { name, capital, area, languages, flags } = props;
@@ -30,6 +31,13 @@ const Country = (props) => {
             ))}
           </p>
           <img style={{ height: 70 }} src={flags.png} alt="..." />
+          <>
+            {capital.map((cityName) => (
+              <div key={cityName}>
+                <Weather capital={cityName} />
+              </div>
+            ))}
+          </>
         </div>
       )}
     </div>
