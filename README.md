@@ -20,3 +20,10 @@ e kaikki tehty
 
 Kaikki tehty.</br>
 Tehtävät 3.10, 3.11 ja 3.21 eri repositoriossa -> https://github.com/JHVeps/Puhelinluettelo-backend
+
+## osa 4
+
+a 4.1, 4.2 tehty</br>
+b</br>
+c</br>
+d</br>
