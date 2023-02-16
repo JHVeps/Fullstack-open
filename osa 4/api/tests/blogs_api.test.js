@@ -8,10 +8,8 @@ const Blog = require("../models/blog");
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-  let blogObject = new Blog(helper.initialBlogs[0]);
-  await blogObject.save();
-  blogObject = new Blog(helper.initialBlogs[1]);
-  await blogObject.save();
+
+  await Blog.insertMany(helper.initialBlogs);
 });
 
 test("blogs are returned as json", async () => {
@@ -53,6 +51,20 @@ test("a valid blog can and will be added to DB", async () => {
 
   const titles = blogsAtEnd.map((blog) => blog.title);
   expect(titles).toContain("Valid Blog");
+});
+
+test("if no likes then likes will be set to 0", async () => {
+  const newBlog = {
+    title: "Blog Without Id",
+    author: "Also Valid",
+  };
+
+  await api.post("/api/blogs").send(newBlog).expect(201);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  const likes = blogsAtEnd.map((blog) => blog.likes);
+  expect(likes).toContain(0);
 });
 
 afterAll(async () => {
