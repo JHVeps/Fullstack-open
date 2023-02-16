@@ -27,6 +27,14 @@ test("all blogs returned", async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
+test("that blogs have a field called id", async () => {
+  const response = await api.get("/api/blogs");
+
+  const ids = response.body.map((blog) => blog.id);
+
+  expect(ids).toBeDefined();
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
