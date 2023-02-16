@@ -4,11 +4,13 @@ const initialBlogs = [
   {
     title: "Test 1",
     author: "Tester Ted",
+    url: "fortesting",
     likes: 1,
   },
   {
     title: "Test 2",
     author: "Tester Tod",
+    url: "also for testing",
     likes: 2,
   },
 ];

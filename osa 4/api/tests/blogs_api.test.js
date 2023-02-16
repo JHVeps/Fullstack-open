@@ -37,6 +37,7 @@ test("a valid blog can and will be added to DB", async () => {
   const newBlog = {
     title: "Valid Blog",
     author: "Valid Ted",
+    url: "testurl",
     likes: 1,
   };
 
@@ -57,6 +58,7 @@ test("if no likes then likes will be set to 0", async () => {
   const newBlog = {
     title: "Blog Without Id",
     author: "Also Valid",
+    url: "testurl",
   };
 
   await api.post("/api/blogs").send(newBlog).expect(201);
@@ -65,6 +67,15 @@ test("if no likes then likes will be set to 0", async () => {
 
   const likes = blogsAtEnd.map((blog) => blog.likes);
   expect(likes).toContain(0);
+});
+
+test("if no title or url then response status 400 Bad request", async () => {
+  const newBlog = {
+    author: "Not Valid",
+    likes: 3,
+  };
+
+  await api.post("/api/blogs").send(newBlog).expect(400);
 });
 
 afterAll(async () => {
