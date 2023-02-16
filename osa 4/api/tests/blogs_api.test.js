@@ -35,6 +35,26 @@ test("that blogs have a field called id", async () => {
   expect(ids).toBeDefined();
 });
 
+test("a valid blog can and will be added to DB", async () => {
+  const newBlog = {
+    title: "Valid Blog",
+    author: "Valid Ted",
+    likes: 1,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+
+  const titles = blogsAtEnd.map((blog) => blog.title);
+  expect(titles).toContain("Valid Blog");
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
