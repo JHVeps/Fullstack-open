@@ -18,10 +18,27 @@ blogsRouter.post("/", async (request, response, next) => {
 
   if (body.title === undefined || body.url === undefined) {
     response.status(400).json();
+    return;
   }
   try {
     const savedBlog = await blog.save();
     response.status(201).json(savedBlog);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+blogsRouter.delete("/:id", async (request, response, next) => {
+  const blogId = request.params.id;
+
+  // if (!foundBlog) {
+  //   response.status(404).json();
+  //   return;
+  // }
+
+  try {
+    const foundBlog = await Blog.findByIdAndDelete(blogId);
+    response.status(204).json({ message: "Blog deleted successfully" });
   } catch (exception) {
     next(exception);
   }
