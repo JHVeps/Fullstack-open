@@ -80,6 +80,22 @@ describe("when there is initially some blogs saved", () => {
     });
   });
 
+  describe("updating blog", () => {
+    test("if blog likes will be updated then succesful update returns status code 201", async () => {
+      const blogsBeforeUpdate = await helper.blogsInDb();
+      const blogToUpdate = blogsBeforeUpdate[0];
+      const newLikes = {
+        likes: 10,
+      };
+
+      await api.put(`/api/blogs/${blogToUpdate.id}`).send(newLikes).expect(201);
+
+      const blogsAfterUpdate = await helper.blogsInDb();
+      const updatedBlog = blogsAfterUpdate[0];
+      expect(updatedBlog.likes).toBe(10);
+    });
+  });
+
   describe("deletion of a blog", () => {
     test("is succesful with valid id returns status code 204", async () => {
       const blogsBeforeDelete = await helper.blogsInDb();

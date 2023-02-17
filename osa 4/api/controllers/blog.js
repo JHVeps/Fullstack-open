@@ -28,16 +28,32 @@ blogsRouter.post("/", async (request, response, next) => {
   }
 });
 
+blogsRouter.put("/:id", async (request, response, next) => {
+  const body = request.body;
+  const blogId = request.params.id;
+
+  const blog = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+  };
+
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(blogId, blog, {
+      new: true,
+    });
+    response.status(201).json(updatedBlog);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 blogsRouter.delete("/:id", async (request, response, next) => {
   const blogId = request.params.id;
 
-  // if (!foundBlog) {
-  //   response.status(404).json();
-  //   return;
-  // }
-
   try {
-    const foundBlog = await Blog.findByIdAndDelete(blogId);
+    await Blog.findByIdAndDelete(blogId);
     response.status(204).json({ message: "Blog deleted successfully" });
   } catch (exception) {
     next(exception);
