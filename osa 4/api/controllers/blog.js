@@ -7,18 +7,17 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response, next) => {
-  const body = request.body;
+  const { title, author, url, likes } = request.body;
 
   const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes || 0,
+    title: title,
+    author: author,
+    url: url,
+    likes: likes || 0,
   });
 
-  if (body.title === undefined || body.url === undefined) {
-    response.status(400).json();
-    return;
+  if (title === undefined || url === undefined) {
+    return response.status(400).json();
   }
   try {
     const savedBlog = await blog.save();
@@ -29,14 +28,14 @@ blogsRouter.post("/", async (request, response, next) => {
 });
 
 blogsRouter.put("/:id", async (request, response, next) => {
-  const body = request.body;
+  const { title, author, url, likes } = request.body;
   const blogId = request.params.id;
 
   const blog = {
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
+    title,
+    author,
+    url,
+    likes,
   };
 
   try {
