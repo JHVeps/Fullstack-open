@@ -26,8 +26,23 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
+const tokenExtractor = (request, response, next) => {
+  try {
+    const authorizationHeader = request.headers.authorization;
+    if (authorizationHeader) {
+      const token = authorizationHeader.split(" ")[1];
+
+      request.token = token;
+    }
+    return next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
+  tokenExtractor,
 };
