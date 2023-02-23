@@ -216,7 +216,7 @@ describe("when there is initially one user at db", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      expect(result.body).toContain(
+      expect(result.body.error).toContain(
         "status code 400, ValidationError, password must be at least 3 characters"
       );
 

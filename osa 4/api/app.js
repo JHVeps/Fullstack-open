@@ -6,6 +6,7 @@ const logger = require("./utils/logger");
 const mongoose = require("mongoose");
 require("express-async-errors");
 
+const loginRouter = require("./controllers/login");
 const blogsRouter = require("./controllers/blog");
 const usersRouter = require("./controllers/users");
 const middleware = require("./utils/middleware");
@@ -25,6 +26,7 @@ app.use(cors());
 app.use(express.json());
 app.use(middleware.requestLogger);
 
+app.use("/api/login", loginRouter);
 app.use("/api/blogs", blogsRouter);
 app.use("/api/users", usersRouter);
 
