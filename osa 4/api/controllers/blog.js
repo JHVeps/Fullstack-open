@@ -64,12 +64,23 @@ blogsRouter.put("/:id", async (request, response, next) => {
 
 blogsRouter.delete("/:id", async (request, response, next) => {
   const blogId = request.params.id;
+  const username = request.body.username;
+  const blog = await Blog.findById(blogId);
+  const userIdInBlog = blog.user.toString();
+  const user = await User.findOne({ username });
+  const userId = user._id;
 
-  try {
-    await Blog.findByIdAndDelete(blogId);
-    response.status(204).json({ message: "Blog deleted successfully" });
-  } catch (exception) {
-    next(exception);
+  if (!request.token) {
+    return response.status(400).json({ message: "token missing, try login" });
+  }
+
+  if (userIdInBlog === userId.toString()) {
+    try {
+      await Blog.findByIdAndDelete(blogId);
+      response.status(204).json({ message: "Blog deleted successfully" });
+    } catch (exception) {
+      next(exception);
+    }
   }
 });
 
