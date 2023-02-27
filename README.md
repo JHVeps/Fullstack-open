@@ -24,6 +24,6 @@ Tehtävät 3.10, 3.11 ja 3.21 eri repositoriossa -> https://github.com/JHVeps/Pu
 ## osa 4
 
 a 4.1 - 4.5 tehty</br>
-b 4.8 - 4.14 tehty</br>
+b kaikki tehty</br>
 c ei tehtäviä</br>
 d kaikki tehty</br>
