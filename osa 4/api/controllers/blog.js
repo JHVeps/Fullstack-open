@@ -73,7 +73,7 @@ blogsRouter.delete("/:id", async (request, response, next) => {
 
   console.log("blog id params: ", blogId);
   console.log("user id params: ", userId);
-  console.log("suerInBlog: ", userIdInBlog);
+  console.log("userInBlog: ", userIdInBlog);
 
   if (!request.token) {
     return response.status(400).json({ message: "token missing, try login" });

@@ -42,8 +42,52 @@ const favoriteBlog = (blogs) => {
 //   return max;
 // };
 
+const mostBlogs = (blogs) => {
+  const authors = [];
+  const duplicateCount = {};
+
+  const addAuthors = blogs.forEach((blog) => {
+    let count = 1;
+
+    const tempObject = {
+      author: blog.author,
+      blogs: count,
+    };
+
+    authors.push(tempObject);
+  });
+
+  authors.sort();
+
+  authors.forEach(
+    (e) =>
+      (duplicateCount[e.author] = duplicateCount[e.author]
+        ? duplicateCount[e.author] + 1
+        : 1)
+  );
+  const result = Object.keys(duplicateCount).map((e) => {
+    return { key: e, count: duplicateCount[e] };
+  });
+
+  console.log("result: ", result);
+
+  result.sort(function (a, b) {
+    return a.count - b.count;
+  });
+
+  console.log("sorted result: ", result);
+
+  const blogger = {
+    author: result[result.length - 1].key,
+    blogs: result[result.length - 1].count,
+  };
+
+  return blogger;
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 };

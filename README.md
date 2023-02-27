@@ -27,3 +27,5 @@ a 4.1 - 4.5 tehty</br>
 b kaikki tehty</br>
 c ei tehtäviä</br>
 d kaikki tehty</br>
+
+## osa 5
