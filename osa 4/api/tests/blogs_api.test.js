@@ -1,6 +1,7 @@
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const helper = require("./test_helper");
 const app = require("../app");
@@ -37,16 +38,33 @@ describe("when there is initially some blogs saved", () => {
   });
 
   describe("addition of a new blog", () => {
-    test("a valid blog can and will be added to DB", async () => {
+    test("adding a valid blog", async () => {
+      const user = {
+        username: "root",
+      };
+
+      const currentUser = await User.findOne({ username: user.username });
+
+      const userForToken = {
+        username: currentUser.username,
+        id: currentUser._id,
+      };
+
+      const token = jwt.sign(userForToken, process.env.SECRET);
+
+      console.log("user id", currentUser.id);
+
       const newBlog = {
         title: "Valid Blog",
         author: "Valid Ted",
         url: "testurl",
         likes: 1,
+        user: currentUser.id,
       };
 
       await api
         .post("/api/blogs")
+        .set({ Authorization: `bearer ${token}` })
         .send(newBlog)
         .expect(201)
         .expect("Content-Type", /application\/json/);
@@ -59,13 +77,31 @@ describe("when there is initially some blogs saved", () => {
     });
 
     test("if no likes then likes will be set to 0", async () => {
+      const user = {
+        username: "root",
+      };
+
+      const currentUser = await User.findOne({ username: user.username });
+
+      const userForToken = {
+        username: currentUser.username,
+        id: currentUser._id,
+      };
+
+      const token = jwt.sign(userForToken, process.env.SECRET);
+
       const newBlog = {
         title: "Blog Without Id",
         author: "Also Valid",
         url: "testurl",
+        user: currentUser.id,
       };
 
-      await api.post("/api/blogs").send(newBlog).expect(201);
+      await api
+        .post("/api/blogs")
+        .set({ Authorization: `bearer ${token}` })
+        .send(newBlog)
+        .expect(201);
 
       const blogsAtEnd = await helper.blogsInDb();
 
@@ -101,18 +137,48 @@ describe("when there is initially some blogs saved", () => {
 
   describe("deletion of a blog", () => {
     test("is succesful with valid id returns status code 204", async () => {
-      const blogsBeforeDelete = await helper.blogsInDb();
-      const blogToDelete = blogsBeforeDelete[0];
+      const user = {
+        username: "root",
+      };
 
-      await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+      const currentUser = await User.findOne({ username: user.username });
+
+      const userForToken = {
+        username: currentUser.username,
+        id: currentUser._id,
+      };
+
+      const token = jwt.sign(userForToken, process.env.SECRET);
+
+      const newBlog = {
+        title: "BlogDeletion",
+        author: "Deleter",
+        url: "testurl",
+        likes: 5,
+        user: currentUser.id,
+      };
+
+      await api
+        .post("/api/blogs")
+        .set({ Authorization: `bearer ${token}` })
+        .send(newBlog)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
+      const blogForDeletion = await Blog.findOne({ title: newBlog.title });
+
+      console.log("blog for deletion: ", blogForDeletion);
+
+      await api
+        .delete(`/api/blogs/${blogForDeletion.id}`)
+        .set({ Authorization: `bearer ${token}` })
+        .expect(204);
 
       const blogsAfterDelete = await helper.blogsInDb();
 
-      expect(blogsAfterDelete).toHaveLength(helper.initialBlogs.length - 1);
-
       const titles = blogsAfterDelete.map((b) => b.title);
 
-      expect(titles).not.toContain(blogToDelete.title);
+      expect(titles).not.toContain(blogForDeletion.title);
     });
   });
 });
