@@ -106,7 +106,7 @@ describe("Most likes", () => {
     expect(result).toEqual(blogs[2]);
   });
 
-  test("of a bigger list, author and blogs counted will be the return value", () => {
+  test("of who has most blogs, author and blogs counted will be the return value", () => {
     const blogs = [
       {
         title: "Go To Statement Considered Harmful",
@@ -147,7 +147,7 @@ describe("Most likes", () => {
     });
   });
 
-  test("of a bigger list, author and total likes will be the return value", () => {
+  test("of who has most overall likes, author and total likes will be the return value", () => {
     const blogs = [
       {
         title: "Go To Statement Considered Harmful",

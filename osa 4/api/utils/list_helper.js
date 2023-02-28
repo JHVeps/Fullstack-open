@@ -43,18 +43,9 @@ const favoriteBlog = (blogs) => {
 // };
 
 const mostBlogs = (blogs) => {
-  const authors = [];
   const duplicateCount = {};
 
-  const addAuthors = blogs.forEach((blog) => {
-    const tempObject = {
-      author: blog.author,
-    };
-
-    authors.push(tempObject);
-  });
-
-  authors.forEach(
+  blogs.forEach(
     (e) =>
       (duplicateCount[e.author] = duplicateCount[e.author]
         ? duplicateCount[e.author] + 1
