@@ -1,10 +1,10 @@
-const dummy = (blogs) => {
+const dummy = (arrayOfBlogs) => {
   return 1;
 };
 
-const totalLikes = (blogs) => {
-  const likesAmount = blogs.reduce((sum, blog) => sum + blog.likes, 0);
-  return blogs.length === 0 ? 0 : likesAmount;
+const totalLikes = (arrayOfBlogs) => {
+  const likesAmount = arrayOfBlogs.reduce((sum, blog) => sum + blog.likes, 0);
+  return arrayOfBlogs.length === 0 ? 0 : likesAmount;
 };
 
 // same as above
@@ -19,11 +19,11 @@ const totalLikes = (blogs) => {
 //   }
 // };
 
-const favoriteBlog = (blogs) => {
-  if (blogs.length === 0) {
+const favoriteBlog = (arrayOfBlogs) => {
+  if (arrayOfBlogs.length === 0) {
     return 0;
   }
-  const max = blogs.reduce(
+  const max = arrayOfBlogs.reduce(
     (prev, current) => (prev.likes > current.likes ? prev : current),
     0
   );
@@ -42,36 +42,54 @@ const favoriteBlog = (blogs) => {
 //   return max;
 // };
 
-const mostBlogs = (blogs) => {
+const mostBlogs = (arrayOfBlogs) => {
   const duplicateCount = {};
 
-  blogs.forEach(
+  arrayOfBlogs.forEach(
     (e) =>
       (duplicateCount[e.author] = duplicateCount[e.author]
         ? duplicateCount[e.author] + 1
         : 1)
   );
+
   const result = Object.keys(duplicateCount).map((e) => {
-    return { key: e, count: duplicateCount[e] };
+    return { key: e, blogs: duplicateCount[e] };
   });
 
   result.sort(function (a, b) {
-    return a.count - b.count;
+    return a.blogs - b.blogs;
   });
 
   const bloggerWithMostBlogs = {
     author: result[result.length - 1].key,
-    blogs: result[result.length - 1].count,
+    blogs: result[result.length - 1].blogs,
   };
 
   return bloggerWithMostBlogs;
 };
 
-//Tämä kesken
-const mostLikes = (blogs) => {
+const mostLikes = (arrayOfBlogs) => {
+  const sumLikes = arrayOfBlogs.reduce((e, { author, likes }) => {
+    e[author] = e[author] || 0;
+    e[author] += likes;
+    return e;
+  }, {});
+
+  const result = Object.keys(sumLikes).map((e) => {
+    return { key: e, likes: sumLikes[e] };
+  });
+
+  console.log("result: ", result);
+
+  result.sort(function (a, b) {
+    return a.likes - b.likes;
+  });
+
+  console.log("sorted result: ", result);
+
   const bloggerWithMostLikes = {
-    author: "Edsger W. Dijkstra",
-    likes: 17,
+    author: result[result.length - 1].key,
+    likes: result[result.length - 1].likes,
   };
   return bloggerWithMostLikes;
 };
