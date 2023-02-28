@@ -52,8 +52,6 @@ describe("when there is initially some blogs saved", () => {
 
       const token = jwt.sign(userForToken, process.env.SECRET);
 
-      console.log("user id", currentUser.id);
-
       const newBlog = {
         title: "Valid Blog",
         author: "Valid Ted",
@@ -166,8 +164,6 @@ describe("when there is initially some blogs saved", () => {
         .expect("Content-Type", /application\/json/);
 
       const blogForDeletion = await Blog.findOne({ title: newBlog.title });
-
-      console.log("blog for deletion: ", blogForDeletion);
 
       await api
         .delete(`/api/blogs/${blogForDeletion.id}`)

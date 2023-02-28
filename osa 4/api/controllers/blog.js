@@ -13,9 +13,6 @@ blogsRouter.post("/", async (request, response, next) => {
   // user from request object has username and id values
   const currentUser = request.user;
 
-  console.log("reguest.user: ", request.user);
-  console.log("request.token: ", request.token);
-
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
   if (!decodedToken.id) {
     return response.status(401).json({ error: "token invalid" });
@@ -70,10 +67,6 @@ blogsRouter.delete("/:id", async (request, response, next) => {
   const userId = request.user.id;
   const blog = await Blog.findById(blogId);
   const userIdInBlog = blog.user.toString();
-
-  console.log("blog id params: ", blogId);
-  console.log("user id params: ", userId);
-  console.log("userInBlog: ", userIdInBlog);
 
   if (!request.token) {
     return response.status(400).json({ message: "token missing, try login" });

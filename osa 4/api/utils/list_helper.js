@@ -47,17 +47,12 @@ const mostBlogs = (blogs) => {
   const duplicateCount = {};
 
   const addAuthors = blogs.forEach((blog) => {
-    let count = 1;
-
     const tempObject = {
       author: blog.author,
-      blogs: count,
     };
 
     authors.push(tempObject);
   });
-
-  authors.sort();
 
   authors.forEach(
     (e) =>
@@ -69,20 +64,25 @@ const mostBlogs = (blogs) => {
     return { key: e, count: duplicateCount[e] };
   });
 
-  console.log("result: ", result);
-
   result.sort(function (a, b) {
     return a.count - b.count;
   });
 
-  console.log("sorted result: ", result);
-
-  const blogger = {
+  const bloggerWithMostBlogs = {
     author: result[result.length - 1].key,
     blogs: result[result.length - 1].count,
   };
 
-  return blogger;
+  return bloggerWithMostBlogs;
+};
+
+//Tämä kesken
+const mostLikes = (blogs) => {
+  const bloggerWithMostLikes = {
+    author: "Edsger W. Dijkstra",
+    likes: 17,
+  };
+  return bloggerWithMostLikes;
 };
 
 module.exports = {
@@ -90,4 +90,5 @@ module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };

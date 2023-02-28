@@ -106,7 +106,7 @@ describe("Most likes", () => {
     expect(result).toEqual(blogs[2]);
   });
 
-  test("of a bigger list, author with most blogs will be the return value", () => {
+  test("of a bigger list, author and blogs counted will be the return value", () => {
     const blogs = [
       {
         title: "Go To Statement Considered Harmful",
@@ -144,6 +144,47 @@ describe("Most likes", () => {
     expect(result).toEqual({
       author: "Robert C. Martin",
       blogs: 3,
+    });
+  });
+
+  test("of a bigger list, author and total likes will be the return value", () => {
+    const blogs = [
+      {
+        title: "Go To Statement Considered Harmful",
+        author: "Edsger W. Dijkstra",
+        likes: 5,
+      },
+      {
+        title: "Canonical string reduction",
+        author: "Edsger W. Dijkstra",
+        likes: 12,
+      },
+      {
+        title: "First class tests",
+        author: "Robert C. Martin",
+        likes: 10,
+      },
+      {
+        title: "TDD harms architecture",
+        author: "Robert C. Martin",
+        likes: 0,
+      },
+      {
+        title: "Type wars",
+        author: "Robert C. Martin",
+        likes: 2,
+      },
+      {
+        title: "React patterns",
+        author: "Michael Chan",
+        likes: 7,
+      },
+    ];
+
+    const result = listHelper.mostLikes(blogs);
+    expect(result).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 17,
     });
   });
 });
