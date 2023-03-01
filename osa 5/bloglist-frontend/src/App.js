@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import blogService from "./services/blogs";
+import Notification from "./components/notifications/Notification";
+import ErrorNotification from "./components/notifications/ErrorNotification";
 import LoginForm from "./components/LoginForm";
 import Blog from "./components/Blog";
 import BlogForm from "./components/BlogForm";
-import blogService from "./services/blogs";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,15 +14,14 @@ const App = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [errorNotificationMessage, setErrorNotificationMessage] =
+    useState(null);
 
   useEffect(() => {
-    const getBlogs = async () => {
-      const blogs = await blogService.getAll();
-      setBlogs(blogs.data);
-    };
-    getBlogs();
-
-    return () => {};
+    blogService.getAll().then((blogs) => {
+      setBlogs(blogs);
+    });
   }, []);
 
   useEffect(() => {
@@ -36,6 +37,8 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+        <Notification message={notificationMessage} />
+        <ErrorNotification message={errorNotificationMessage} />
         <h2>Login</h2>
         <LoginForm
           username={username}
@@ -43,6 +46,8 @@ const App = () => {
           password={password}
           setPassword={setPassword}
           setUser={setUser}
+          setNotificationMessage={setNotificationMessage}
+          setErrorNotificationMessage={setErrorNotificationMessage}
         />
       </div>
     );
@@ -55,13 +60,15 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={notificationMessage} />
+      <ErrorNotification message={errorNotificationMessage} />
       <p>
         {user.username} logged in
         <button onClick={() => logout()}>logout</button>
       </p>
       <h2>create new</h2>
       <BlogForm
-        user={user}
+        blogs={blogs}
         setBlogs={setBlogs}
         newTitle={newTitle}
         setNewTitle={setNewTitle}
@@ -69,6 +76,8 @@ const App = () => {
         setNewAuthor={setNewAuthor}
         newUrl={newUrl}
         setNewUrl={setNewUrl}
+        setNotificationMessage={setNotificationMessage}
+        setErrorNotificationMessage={setErrorNotificationMessage}
       />
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />

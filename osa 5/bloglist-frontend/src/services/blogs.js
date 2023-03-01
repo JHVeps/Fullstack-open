@@ -8,28 +8,17 @@ const setToken = (newToken) => {
 };
 
 const getAll = async () => {
-  try {
-    const res = await axios(baseUrl);
-    // console.log(res.data);
-    return { data: res.data, status: res.status };
-  } catch (error) {
-    alert(error);
-    return;
-  }
+  const response = await axios(baseUrl);
+  return response.data;
 };
 
 const create = async (newObject) => {
   const config = {
     headers: { Authorization: token },
   };
-  try {
-    const res = await axios.post(baseUrl, newObject, config);
-    // console.log(token);
-    return { data: res.data, status: res.status };
-  } catch (error) {
-    alert(error);
-    return;
-  }
+
+  const response = await axios.post(baseUrl, newObject, config);
+  return response.data;
 };
 
 const exportedObject = {

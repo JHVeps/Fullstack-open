@@ -3,7 +3,15 @@ import loginService from "../services/login";
 import blogServices from "../services/blogs";
 
 const LoginForm = (props) => {
-  const { setUser, username, setUsername, password, setPassword } = props;
+  const {
+    setUser,
+    username,
+    setUsername,
+    password,
+    setPassword,
+    setNotificationMessage,
+    setErrorNotificationMessage,
+  } = props;
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -18,7 +26,19 @@ const LoginForm = (props) => {
       setUser(user);
       setUsername("");
       setPassword("");
-    } catch (exception) {}
+      setNotificationMessage(`User ${user.username} logged in successfully`);
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
+    } catch (exception) {
+      console.log("Error: ", exception.response.data);
+      setErrorNotificationMessage(exception.response.data);
+      setUsername("");
+      setPassword("");
+      setTimeout(() => {
+        setErrorNotificationMessage(null);
+      }, 5000);
+    }
   };
 
   return (

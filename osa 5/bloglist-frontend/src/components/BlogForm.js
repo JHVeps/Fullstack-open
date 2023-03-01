@@ -10,6 +10,8 @@ const BlogForm = (props) => {
     setNewAuthor,
     newUrl,
     setNewUrl,
+    setNotificationMessage,
+    setErrorNotificationMessage,
   } = props;
   const addBlog = async (event) => {
     event.preventDefault();
@@ -20,19 +22,27 @@ const BlogForm = (props) => {
         url: newUrl,
       };
       const blogObj = await blogServices.create(blogObject);
-
-      window.location.reload();
-      setBlogs(blogs.concat(blogObj.data));
+      setBlogs(blogs.concat(blogObj));
+      setNotificationMessage(`Added ${blogObject.title}`);
       setNewTitle("");
       setNewAuthor("");
       setNewUrl("");
-    } catch (exception) {}
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
+    } catch (exception) {
+      console.log("Error", exception.response.data);
+      setErrorNotificationMessage(exception.response.data);
+      setTimeout(() => {
+        setErrorNotificationMessage(null);
+      }, 5000);
+    }
   };
 
   return (
     <form onSubmit={addBlog}>
       <div>
-        name:
+        title:
         <input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
       </div>
       <div>
