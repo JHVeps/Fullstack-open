@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
+import Blog from "./components/Blog";
+import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 
 const App = () => {
@@ -8,9 +9,18 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newAuthor, setNewAuthor] = useState("");
+  const [newUrl, setNewUrl] = useState("");
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    const getBlogs = async () => {
+      const blogs = await blogService.getAll();
+      setBlogs(blogs.data);
+    };
+    getBlogs();
+
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -34,9 +44,6 @@ const App = () => {
           setPassword={setPassword}
           setUser={setUser}
         />
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
       </div>
     );
   }
@@ -49,9 +56,20 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <p>
-        {user.username} logged in{" "}
+        {user.username} logged in
         <button onClick={() => logout()}>logout</button>
       </p>
+      <h2>create new</h2>
+      <BlogForm
+        user={user}
+        setBlogs={setBlogs}
+        newTitle={newTitle}
+        setNewTitle={setNewTitle}
+        newAuthor={newAuthor}
+        setNewAuthor={setNewAuthor}
+        newUrl={newUrl}
+        setNewUrl={setNewUrl}
+      />
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
