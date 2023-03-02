@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import blogServices from "../services/blogs";
 const BlogForm = (props) => {
   const {
     blogs,
     setBlogs,
-    newTitle,
-    setNewTitle,
-    newAuthor,
-    setNewAuthor,
-    newUrl,
-    setNewUrl,
     setNotificationMessage,
     setErrorNotificationMessage,
+    showBlogForm,
+    setShowBlogForm,
   } = props;
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newAuthor, setNewAuthor] = useState("");
+  const [newUrl, setNewUrl] = useState("");
+
   const addBlog = async (event) => {
     event.preventDefault();
     try {
@@ -27,6 +28,7 @@ const BlogForm = (props) => {
       setNewTitle("");
       setNewAuthor("");
       setNewUrl("");
+      setShowBlogForm(!showBlogForm);
       setTimeout(() => {
         setNotificationMessage(null);
       }, 5000);
@@ -58,6 +60,11 @@ const BlogForm = (props) => {
       </div>
       <div>
         <button type="submit">create</button>
+      </div>
+      <div>
+        <button type="button" onClick={() => setShowBlogForm(!showBlogForm)}>
+          cancel
+        </button>
       </div>
     </form>
   );

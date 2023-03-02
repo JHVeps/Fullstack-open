@@ -8,15 +8,15 @@ import BlogForm from "./components/BlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [newTitle, setNewTitle] = useState("");
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newUrl, setNewUrl] = useState("");
   const [notificationMessage, setNotificationMessage] = useState(null);
   const [errorNotificationMessage, setErrorNotificationMessage] =
     useState(null);
+  const [showBlogForm, setShowBlogForm] = useState(false);
+
+  const switchBlogFormState = () => {
+    setShowBlogForm(!showBlogForm);
+  };
 
   useEffect(() => {
     blogService.getAll().then((blogs) => {
@@ -41,10 +41,6 @@ const App = () => {
         <ErrorNotification message={errorNotificationMessage} />
         <h2>Login</h2>
         <LoginForm
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
           setUser={setUser}
           setNotificationMessage={setNotificationMessage}
           setErrorNotificationMessage={setErrorNotificationMessage}
@@ -66,19 +62,23 @@ const App = () => {
         {user.username} logged in
         <button onClick={() => logout()}>logout</button>
       </p>
-      <h2>create new</h2>
-      <BlogForm
-        blogs={blogs}
-        setBlogs={setBlogs}
-        newTitle={newTitle}
-        setNewTitle={setNewTitle}
-        newAuthor={newAuthor}
-        setNewAuthor={setNewAuthor}
-        newUrl={newUrl}
-        setNewUrl={setNewUrl}
-        setNotificationMessage={setNotificationMessage}
-        setErrorNotificationMessage={setErrorNotificationMessage}
-      />
+
+      <button type="button" onClick={switchBlogFormState}>
+        add new
+      </button>
+      {showBlogForm && (
+        <>
+          <h2>create new</h2>
+          <BlogForm
+            blogs={blogs}
+            setBlogs={setBlogs}
+            setNotificationMessage={setNotificationMessage}
+            setErrorNotificationMessage={setErrorNotificationMessage}
+            showBlogForm={showBlogForm}
+            setShowBlogForm={setShowBlogForm}
+          />
+        </>
+      )}
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
