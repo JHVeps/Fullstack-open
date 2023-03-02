@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import blogServices from "../services/blogs";
 const BlogForm = (props) => {
   const {
-    blogs,
-    setBlogs,
+    fetcher,
+    setFetcher,
     setNotificationMessage,
     setErrorNotificationMessage,
     showBlogForm,
@@ -23,7 +23,8 @@ const BlogForm = (props) => {
         url: newUrl,
       };
       const blogObj = await blogServices.create(blogObject);
-      setBlogs(blogs.concat(blogObj));
+      setFetcher(!fetcher);
+      console.log("blogObj", blogObj);
       setNotificationMessage(`Added ${blogObject.title}`);
       setNewTitle("");
       setNewAuthor("");

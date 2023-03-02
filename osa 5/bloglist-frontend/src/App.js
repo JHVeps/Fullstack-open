@@ -9,6 +9,7 @@ import BlogForm from "./components/BlogForm";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const [fetcher, setFetcher] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState(null);
   const [errorNotificationMessage, setErrorNotificationMessage] =
     useState(null);
@@ -20,9 +21,10 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => {
+      console.log("response: ", blogs);
       setBlogs(blogs);
     });
-  }, []);
+  }, [fetcher]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -72,6 +74,8 @@ const App = () => {
           <BlogForm
             blogs={blogs}
             setBlogs={setBlogs}
+            fetcher={fetcher}
+            setFetcher={setFetcher}
             setNotificationMessage={setNotificationMessage}
             setErrorNotificationMessage={setErrorNotificationMessage}
             showBlogForm={showBlogForm}

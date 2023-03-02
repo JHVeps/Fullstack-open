@@ -22,7 +22,7 @@ const LoginForm = (props) => {
       setUser(user);
       setUsername("");
       setPassword("");
-      setNotificationMessage(`User ${user.username} logged in successfully`);
+      setNotificationMessage(`User ${user.name} logged in successfully`);
       setTimeout(() => {
         setNotificationMessage(null);
       }, 5000);

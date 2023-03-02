@@ -16,7 +16,7 @@ const Blog = ({ blog }) => {
       {!showAllInfo ? (
         <ul className="blog__info">
           <li>
-            {blog.title}
+            {blog.title} {blog.author}
             <button type="button" onClick={() => setShowAllInfo(!showAllInfo)}>
               view
             </button>
@@ -25,7 +25,7 @@ const Blog = ({ blog }) => {
       ) : (
         <ul className="blog__info">
           <li>
-            {blog.title}
+            {blog.title} {blog.author}
             <button type="button" onClick={() => setShowAllInfo(!showAllInfo)}>
               hide
             </button>
@@ -34,7 +34,7 @@ const Blog = ({ blog }) => {
           <li>
             likes {blog.likes} <button type="button">like</button>
           </li>
-          <li>{blog.author}</li>
+          <li>{blog.user.name}</li>
         </ul>
       )}
     </div>
