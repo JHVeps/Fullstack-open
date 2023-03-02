@@ -83,16 +83,20 @@ const App = () => {
           />
         </>
       )}
-      {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          fetcher={fetcher}
-          setFetcher={setFetcher}
-          setNotificationMessage={setNotificationMessage}
-          setErrorNotificationMessage={setErrorNotificationMessage}
-        />
-      ))}
+      {blogs
+        .sort(function (a, b) {
+          return b.likes - a.likes;
+        })
+        .map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            fetcher={fetcher}
+            setFetcher={setFetcher}
+            setNotificationMessage={setNotificationMessage}
+            setErrorNotificationMessage={setErrorNotificationMessage}
+          />
+        ))}
     </div>
   );
 };
