@@ -12,7 +12,8 @@ const Notification = ({ message }) => {
     type === "Added" ||
     type === "Updated" ||
     type === "Deleted" ||
-    type === "User"
+    type === "User" ||
+    type === "Liked"
   )
     return <div className="success">{message}</div>;
 
