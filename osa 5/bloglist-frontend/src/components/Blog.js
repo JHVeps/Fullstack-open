@@ -2,13 +2,7 @@ import { useState } from "react";
 import blogServices from "../services/blogs";
 import "./Blog.css";
 
-const Blog = ({
-  blog,
-  fetcher,
-  setFetcher,
-  setNotificationMessage,
-  setErrorNotificationMessage,
-}) => {
+const Blog = (props) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -16,10 +10,14 @@ const Blog = ({
     borderWidth: 1,
     marginBottom: 5,
   };
-  // const [newTitle, setNewTitle] = useState("");
-  // const [newAuthor, setNewAuthor] = useState("");
-  // const [newUrl, setNewUrl] = useState("");
-  // const [newLikes, setNewLikes] = useState("");
+
+  const {
+    blog,
+    fetcher,
+    setFetcher,
+    setNotificationMessage,
+    setErrorNotificationMessage,
+  } = props;
 
   const addLike = async (event) => {
     event.preventDefault();
@@ -30,9 +28,8 @@ const Blog = ({
         url: blog.url,
         likes: blog.likes + 1,
       };
-      const blogObj = await blogServices.update(blog.id, blogObject);
+      await blogServices.update(blog.id, blogObject);
       setFetcher(!fetcher);
-      console.log("blogObj", blogObj);
       setNotificationMessage(`Liked "${blogObject.title}"!`);
       setTimeout(() => {
         setNotificationMessage(null);
@@ -46,14 +43,38 @@ const Blog = ({
     }
   };
 
+  const remove = async (event) => {
+    event.preventDefault();
+    if (window.confirm(`Delete ${blog.title} ?`)) {
+      try {
+        await blogServices.remove(blog.id);
+        setFetcher(!fetcher);
+        setNotificationMessage(`Deleted "${blog.title}"!`);
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
+      } catch (exception) {
+        console.log("Error", exception.response.data);
+        setErrorNotificationMessage(exception.response.data);
+        setTimeout(() => {
+          setErrorNotificationMessage(null);
+        }, 5000);
+      }
+    }
+  };
+
   const [showAllInfo, setShowAllInfo] = useState(false);
   return (
     <div style={blogStyle}>
       {!showAllInfo ? (
         <ul className="blog__info">
           <li>
-            {blog.title} {blog.author}
-            <button type="button" onClick={() => setShowAllInfo(!showAllInfo)}>
+            {blog.title} by: {blog.author}
+            <button
+              className="showInfo__button"
+              type="button"
+              onClick={() => setShowAllInfo(!showAllInfo)}
+            >
               view
             </button>
           </li>
@@ -61,19 +82,28 @@ const Blog = ({
       ) : (
         <ul className="blog__info">
           <li>
-            {blog.title} {blog.author}
-            <button type="button" onClick={() => setShowAllInfo(!showAllInfo)}>
+            {blog.title} by: {blog.author}
+            <button
+              className="showInfo__button"
+              type="button"
+              onClick={() => setShowAllInfo(!showAllInfo)}
+            >
               hide
             </button>
           </li>
           <li>{blog.url}</li>
           <li>
             likes {blog.likes}
-            <button type="button" onClick={addLike}>
+            <button className="like__button" type="button" onClick={addLike}>
               like
             </button>
           </li>
           <li>{blog.user.name}</li>
+          <li>
+            <button className="delete__button" type="button" onClick={remove}>
+              remove
+            </button>
+          </li>
         </ul>
       )}
     </div>

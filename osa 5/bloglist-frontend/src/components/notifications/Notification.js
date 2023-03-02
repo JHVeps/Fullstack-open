@@ -10,7 +10,6 @@ const Notification = ({ message }) => {
 
   if (
     type === "Added" ||
-    type === "Updated" ||
     type === "Deleted" ||
     type === "User" ||
     type === "Liked"

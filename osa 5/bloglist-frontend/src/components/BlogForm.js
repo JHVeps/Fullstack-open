@@ -16,15 +16,15 @@ const BlogForm = (props) => {
 
   const addBlog = async (event) => {
     event.preventDefault();
+
     try {
       const blogObject = {
         title: newTitle,
         author: newAuthor,
         url: newUrl,
       };
-      const blogObj = await blogServices.create(blogObject);
+      await blogServices.create(blogObject);
       setFetcher(!fetcher);
-      console.log("blogObj", blogObj);
       setNotificationMessage(`Added ${blogObject.title}`);
       setNewTitle("");
       setNewAuthor("");
@@ -60,10 +60,16 @@ const BlogForm = (props) => {
         <input value={newUrl} onChange={(e) => setNewUrl(e.target.value)} />
       </div>
       <div>
-        <button type="submit">create</button>
+        <button className="create__button" type="submit">
+          create
+        </button>
       </div>
       <div>
-        <button type="button" onClick={() => setShowBlogForm(!showBlogForm)}>
+        <button
+          className="cancel__button"
+          type="button"
+          onClick={() => setShowBlogForm(!showBlogForm)}
+        >
           cancel
         </button>
       </div>

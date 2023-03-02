@@ -62,7 +62,13 @@ const App = () => {
       <ErrorNotification message={errorNotificationMessage} />
       <p>
         {user.username} logged in
-        <button onClick={() => logout()}>logout</button>
+        <button
+          className="login__button"
+          type="button"
+          onClick={() => logout()}
+        >
+          logout
+        </button>
       </p>
 
       <button type="button" onClick={switchBlogFormState}>
