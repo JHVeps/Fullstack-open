@@ -64,6 +64,11 @@ const Blog = (props) => {
   };
 
   const [showAllInfo, setShowAllInfo] = useState(false);
+
+  const toggleShowAllInfo = (event) => {
+    event.preventDefault();
+    setShowAllInfo(!showAllInfo);
+  };
   return (
     <div style={blogStyle}>
       {!showAllInfo ? (
@@ -73,7 +78,7 @@ const Blog = (props) => {
             <button
               className="showInfo__button"
               type="button"
-              onClick={() => setShowAllInfo(!showAllInfo)}
+              onClick={toggleShowAllInfo}
             >
               view
             </button>
@@ -81,7 +86,7 @@ const Blog = (props) => {
         </ul>
       ) : (
         <ul className="blog__info">
-          <li>
+          <li id="titleAndAuthor">
             {blog.title} by: {blog.author}
             <button
               className="showInfo__button"
@@ -91,14 +96,14 @@ const Blog = (props) => {
               hide
             </button>
           </li>
-          <li>{blog.url}</li>
-          <li>
+          <li id="url">{blog.url}</li>
+          <li id="likes">
             likes {blog.likes}
             <button className="like__button" type="button" onClick={addLike}>
               like
             </button>
           </li>
-          <li>{blog.user.name}</li>
+          <li id="user">{blog.user.name}</li>
           <li>
             <button className="delete__button" type="button" onClick={remove}>
               remove
