@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import blogServices from "../services/blogs";
+import blogServices from "../../services/blogs";
 const BlogForm = (props) => {
   const {
     fetcher,

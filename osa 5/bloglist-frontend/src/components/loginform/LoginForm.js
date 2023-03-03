@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from "react";
 import PropTypes from "prop-types";
-import loginService from "../services/login";
-import blogServices from "../services/blogs";
+import loginService from "../../services/login";
+import blogServices from "../../services/blogs";
 
 const LoginForm = forwardRef((props, ref) => {
   const { setUser, setNotificationMessage, setErrorNotificationMessage } =

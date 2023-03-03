@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import blogService from "./services/blogs";
 import Notification from "./components/notifications/Notification";
 import ErrorNotification from "./components/notifications/ErrorNotification";
-import LoginForm from "./components/LoginForm";
-import Blog from "./components/Blog";
-import BlogForm from "./components/BlogForm";
+import LoginForm from "./components/loginform/LoginForm";
+import Blog from "./components/blog/Blog";
+import BlogForm from "./components/blogform/BlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import blogServices from "../services/blogs";
+import blogServices from "../../services/blogs";
 import "./Blog.css";
 
 const Blog = (props) => {
