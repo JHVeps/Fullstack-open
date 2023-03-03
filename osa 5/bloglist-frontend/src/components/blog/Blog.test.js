@@ -29,11 +29,7 @@ test("clicking the view button renders blog title, author, url, likes and user c
     },
   };
 
-  const mockHandler = jest.fn();
-
-  const { container } = render(
-    <Blog blog={blog} toggleShowAllInfo={mockHandler} />
-  );
+  const { container } = render(<Blog blog={blog} />);
 
   const user = userEvent.setup();
   const button = screen.getByText("view");
