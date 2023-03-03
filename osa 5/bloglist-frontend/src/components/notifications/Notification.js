@@ -1,10 +1,13 @@
+import PropTypes from "prop-types";
+import { forwardRef } from "react";
+
 import "./Notification.css";
 
-const Notification = ({ message }) => {
+const Notification = forwardRef((props, ref) => {
+  const { message } = props;
   if (message === null) {
     return null;
   }
-
   const messageSplit = message.split(" ");
   let type = messageSplit[0];
 
@@ -14,9 +17,17 @@ const Notification = ({ message }) => {
     type === "User" ||
     type === "Liked"
   )
-    return <div className="success">{message}</div>;
+    return (
+      <div className="success" ref={ref}>
+        {message}
+      </div>
+    );
+});
 
-  if (type === "Error!") return <div className="error">{message}</div>;
+Notification.displayName = "Notification";
+
+Notification.propTypes = {
+  message: PropTypes.string || null.isRequired,
 };
 
 export default Notification;

@@ -1,13 +1,25 @@
+import PropTypes from "prop-types";
+import { forwardRef } from "react";
+
 import "./Notification.css";
 
-const ErrorNotification = ({ message }) => {
+const ErrorNotification = forwardRef((props, ref) => {
+  const { message } = props;
   if (message === null) {
     return null;
   }
 
-  const msg = JSON.stringify(message);
+  return (
+    <div className="error" ref={ref}>
+      {message.error}
+    </div>
+  );
+});
 
-  return <div className="error">{msg}</div>;
+ErrorNotification.displayName = "ErrorNotification";
+
+ErrorNotification.propTypes = {
+  message: PropTypes.object || null.isRequired,
 };
 
 export default ErrorNotification;

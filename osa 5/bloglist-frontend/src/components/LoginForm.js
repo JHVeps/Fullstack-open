@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
+import PropTypes from "prop-types";
 import loginService from "../services/login";
 import blogServices from "../services/blogs";
 
-const LoginForm = (props) => {
+const LoginForm = forwardRef((props, ref) => {
   const { setUser, setNotificationMessage, setErrorNotificationMessage } =
     props;
 
@@ -38,7 +39,7 @@ const LoginForm = (props) => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} ref={ref}>
       <div>
         username
         <input
@@ -60,6 +61,14 @@ const LoginForm = (props) => {
       <button type="submit">login</button>
     </form>
   );
+});
+
+LoginForm.displayName = "LoginForm";
+
+LoginForm.propTypes = {
+  setUser: PropTypes.any,
+  setNotificationMessage: PropTypes.any,
+  setErrorNotificationMessage: PropTypes.any,
 };
 
 export default LoginForm;
