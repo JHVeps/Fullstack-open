@@ -14,34 +14,36 @@ const Blog = (props) => {
   const {
     blog,
     fetcher,
+    addLike,
     setFetcher,
     setNotificationMessage,
     setErrorNotificationMessage,
   } = props;
 
-  const addLike = async (event) => {
-    event.preventDefault();
-    try {
-      const blogObject = {
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: blog.likes + 1,
-      };
-      await blogServices.update(blog.id, blogObject);
-      setFetcher(!fetcher);
-      setNotificationMessage(`Liked "${blogObject.title}"!`);
-      setTimeout(() => {
-        setNotificationMessage(null);
-      }, 5000);
-    } catch (exception) {
-      console.log("Error", exception.response.data);
-      setErrorNotificationMessage(exception.response.data);
-      setTimeout(() => {
-        setErrorNotificationMessage(null);
-      }, 5000);
-    }
-  };
+  //Commented out for 5.15 assignment to work
+  // const addLike = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const blogObject = {
+  //       title: blog.title,
+  //       author: blog.author,
+  //       url: blog.url,
+  //       likes: blog.likes + 1,
+  //     };
+  //     await blogServices.update(blog.id, blogObject);
+  //     setFetcher(!fetcher);
+  //     setNotificationMessage(`Liked "${blogObject.title}"!`);
+  //     setTimeout(() => {
+  //       setNotificationMessage(null);
+  //     }, 5000);
+  //   } catch (exception) {
+  //     console.log("Error", exception.response.data);
+  //     setErrorNotificationMessage(exception.response.data);
+  //     setTimeout(() => {
+  //       setErrorNotificationMessage(null);
+  //     }, 5000);
+  //   }
+  // };
 
   const remove = async (event) => {
     event.preventDefault();

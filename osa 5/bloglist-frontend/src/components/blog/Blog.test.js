@@ -47,3 +47,28 @@ test("clicking the view button renders blog title, author, url, likes and user c
   expect(likes).toHaveTextContent("0");
   expect(username).toHaveTextContent("random user");
 });
+
+test("clicking the like button twice calls event handler twice", async () => {
+  const blog = {
+    title: "Title for show everything",
+    url: "http://example.com",
+    author: "Jane Doe",
+    likes: 0,
+    user: {
+      name: "random user",
+    },
+  };
+
+  const mockHandler = jest.fn();
+
+  render(<Blog blog={blog} addLike={mockHandler} />);
+
+  const user = userEvent.setup();
+  const button = screen.getByText("view");
+  await user.click(button);
+  const likeButton = screen.getByText("like");
+  await user.click(likeButton);
+  await user.click(likeButton);
+
+  expect(mockHandler.mock.calls).toHaveLength(2);
+});

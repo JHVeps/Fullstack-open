@@ -35,6 +35,25 @@ const App = () => {
     }
   }, []);
 
+  //addLike is here for assignment 5.15 implementation
+  const addLike = async (id) => {
+    try {
+      const blogObject = blogs.find((b) => b.id === id);
+      const newBlogObject = {
+        ...blogObject,
+        likes: blogObject.likes + 1,
+      };
+      await blogService.update(blogObject.id, newBlogObject);
+      setFetcher(!fetcher);
+    } catch (exception) {
+      console.log("Error", exception.response.data);
+      setErrorNotificationMessage(exception.response.data);
+      setTimeout(() => {
+        setErrorNotificationMessage(null);
+      }, 5000);
+    }
+  };
+
   if (!user) {
     return (
       <div>
@@ -97,6 +116,7 @@ const App = () => {
           <Blog
             key={blog.id}
             blog={blog}
+            addLike={() => addLike(blog.id)}
             fetcher={fetcher}
             setFetcher={setFetcher}
             setNotificationMessage={setNotificationMessage}
