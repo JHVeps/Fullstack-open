@@ -35,7 +35,26 @@ const App = () => {
     }
   }, []);
 
-  //addLike is here for assignment 5.15 implementation
+  //createBlog is here because of assignment 5.16 implementation.
+  const createBlog = async (blogObject) => {
+    try {
+      await blogService.create(blogObject);
+      setFetcher(!fetcher);
+      setNotificationMessage(`Added ${blogObject.title}`);
+      setShowBlogForm(!showBlogForm);
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
+    } catch (exception) {
+      console.log("Error", exception.response.data);
+      setErrorNotificationMessage(exception.response.data);
+      setTimeout(() => {
+        setErrorNotificationMessage(null);
+      }, 5000);
+    }
+  };
+
+  //addLike is here because of assignment 5.15 implementation.
   const addLike = async (id) => {
     try {
       const blogObject = blogs.find((b) => b.id === id);
@@ -95,14 +114,8 @@ const App = () => {
       </button>
       {showBlogForm && (
         <>
-          <h2>create new</h2>
           <BlogForm
-            blogs={blogs}
-            setBlogs={setBlogs}
-            fetcher={fetcher}
-            setFetcher={setFetcher}
-            setNotificationMessage={setNotificationMessage}
-            setErrorNotificationMessage={setErrorNotificationMessage}
+            createBlog={createBlog}
             showBlogForm={showBlogForm}
             setShowBlogForm={setShowBlogForm}
           />

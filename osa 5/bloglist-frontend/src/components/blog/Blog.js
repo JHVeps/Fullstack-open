@@ -14,13 +14,13 @@ const Blog = (props) => {
   const {
     blog,
     fetcher,
-    addLike,
     setFetcher,
+    addLike,
     setNotificationMessage,
     setErrorNotificationMessage,
   } = props;
 
-  //Commented out for 5.15 assignment to work
+  //Commented out for 5.15 assignment to work. Same addLike comes as props.
   // const addLike = async (event) => {
   //   event.preventDefault();
   //   try {
