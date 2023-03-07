@@ -1,6 +1,6 @@
 describe("Blog app", function () {
   beforeEach(function () {
-    cy.request("POST", "http://localhost:3003/api/testing/reset");
+    cy.request("POST", `${Cypress.env("BACKEND")}/testing/reset`);
     const tester1 = {
       name: "Ted Tester",
       username: "ted",
@@ -12,11 +12,11 @@ describe("Blog app", function () {
       password: "tod2023",
     };
 
-    cy.request("POST", "http://localhost:3003/api/users/", tester1);
-    cy.request("POST", "http://localhost:3003/api/users/", tester2);
+    cy.request("POST", `${Cypress.env("BACKEND")}/users`, tester1);
+    cy.request("POST", `${Cypress.env("BACKEND")}/users`, tester2);
   });
   it("Login form is shown", function () {
-    cy.visit("http://localhost:3000");
+    cy.visit("");
     cy.contains("blogs");
     cy.contains("Login");
     cy.get("form").should("have.class", "loginform");
@@ -28,7 +28,7 @@ describe("Blog app", function () {
 
   describe("Login", function () {
     it("succeeds with correct credentials", function () {
-      cy.visit("http://localhost:3000");
+      cy.visit("");
       cy.get("#username").type("ted");
       cy.get("#password").type("ted2023");
       cy.get("#login-button").click();
@@ -36,7 +36,7 @@ describe("Blog app", function () {
     });
 
     it("fails with wrong credentials", function () {
-      cy.visit("http://localhost:3000");
+      cy.visit("");
       cy.get("#username").type("ted");
       cy.get("#password").type("ted202");
       cy.get("#login-button").click();
@@ -48,7 +48,7 @@ describe("Blog app", function () {
 
   describe("When logged in", function () {
     beforeEach(function () {
-      cy.visit("http://localhost:3000");
+      cy.visit("");
       cy.get("#username").type("ted");
       cy.get("#password").type("ted2023");
       cy.get("#login-button").click();
