@@ -75,7 +75,7 @@ const App = () => {
 
   if (!user) {
     return (
-      <div>
+      <div className="app">
         <h2>blogs</h2>
         <Notification message={notificationMessage} />
         <ErrorNotification message={errorNotificationMessage} />
@@ -94,7 +94,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="app">
       <h2>blogs</h2>
       <Notification message={notificationMessage} />
       <ErrorNotification message={errorNotificationMessage} />

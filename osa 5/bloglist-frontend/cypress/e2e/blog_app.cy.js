@@ -70,5 +70,17 @@ describe("Blog app", function () {
       cy.contains("like").click();
       cy.get("#likes").should("contain", "likes 1");
     });
+
+    it("A blog can be removed", function () {
+      cy.contains("add new").click();
+      cy.contains("Create new");
+      cy.get("#title").type("test if create blog works");
+      cy.get("#author").type("Ted Tester");
+      cy.get("#url").type("localhost");
+      cy.contains("create").click();
+      cy.contains("view").click();
+      cy.contains("remove").click();
+      cy.get(".app").should("not.contain", "test if create blog works");
+    });
   });
 });
