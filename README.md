@@ -29,3 +29,8 @@ c ei tehtäviä</br>
 d kaikki tehty</br>
 
 ## osa 5
+
+a kaikki tehty</br>
+b kaikki tehty</br>
+c kaikki tehty</br>
+d kaikki tehty</br>
