@@ -39,4 +39,23 @@ describe("Blog app", function () {
       cy.get(".error").should("have.css", "border-style", "solid");
     });
   });
+
+  describe("When logged in", function () {
+    beforeEach(function () {
+      cy.visit("http://localhost:3000");
+      cy.get("#username").type("tester");
+      cy.get("#password").type("test2023");
+      cy.get("#login-button").click();
+    });
+
+    it("A blog can be created", function () {
+      cy.contains("add new").click();
+      cy.contains("Create new");
+      cy.get("#title").type("test if create blog works");
+      cy.get("#author").type("Ted Tester");
+      cy.get("#url").type("localhost");
+      cy.contains("create").click();
+      cy.contains("test if create blog works");
+    });
+  });
 });

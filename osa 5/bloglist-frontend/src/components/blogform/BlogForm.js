@@ -56,6 +56,7 @@ const BlogForm = (props) => {
         <div>
           title:
           <input
+            id="title"
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
             placeholder="title..."
@@ -64,6 +65,7 @@ const BlogForm = (props) => {
         <div>
           author:
           <input
+            id="author"
             value={newAuthor}
             onChange={(e) => setNewAuthor(e.target.value)}
             placeholder="author..."
@@ -72,13 +74,14 @@ const BlogForm = (props) => {
         <div>
           url:
           <input
+            id="url"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
             placeholder="url..."
           />
         </div>
         <div>
-          <button className="create__button" type="submit">
+          <button id="create-button" className="create__button" type="submit">
             create
           </button>
         </div>
