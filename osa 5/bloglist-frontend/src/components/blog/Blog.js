@@ -12,6 +12,7 @@ const Blog = (props) => {
   };
 
   const {
+    user,
     blog,
     fetcher,
     setFetcher,
@@ -71,6 +72,7 @@ const Blog = (props) => {
     event.preventDefault();
     setShowAllInfo(!showAllInfo);
   };
+
   return (
     <div style={blogStyle}>
       {!showAllInfo ? (
@@ -106,11 +108,13 @@ const Blog = (props) => {
             </button>
           </li>
           <li id="user">{blog.user.name}</li>
-          <li>
-            <button className="delete__button" type="button" onClick={remove}>
-              remove
-            </button>
-          </li>
+          {user.id === blog.user.id ? (
+            <li>
+              <button className="delete__button" type="button" onClick={remove}>
+                remove
+              </button>
+            </li>
+          ) : null}
         </ul>
       )}
     </div>

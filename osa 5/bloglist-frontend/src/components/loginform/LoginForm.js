@@ -21,6 +21,7 @@ const LoginForm = forwardRef((props, ref) => {
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       blogServices.setToken(user.token);
       setUser(user);
+      console.log("user id: ", user.id);
       setUsername("");
       setPassword("");
       setNotificationMessage(`User ${user.name} logged in successfully`);
