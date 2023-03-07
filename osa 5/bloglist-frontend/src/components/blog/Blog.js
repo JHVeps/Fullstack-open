@@ -74,7 +74,7 @@ const Blog = (props) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div className="blog" style={blogStyle}>
       {!showAllInfo ? (
         <ul className="blog__info">
           <li>
