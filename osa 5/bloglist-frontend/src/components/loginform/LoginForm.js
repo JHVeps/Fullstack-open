@@ -39,10 +39,11 @@ const LoginForm = forwardRef((props, ref) => {
   };
 
   return (
-    <form onSubmit={handleLogin} ref={ref}>
+    <form className="loginform" onSubmit={handleLogin} ref={ref}>
       <div>
         username
         <input
+          id="username"
           type="text"
           value={username}
           name="Username"
@@ -52,13 +53,16 @@ const LoginForm = forwardRef((props, ref) => {
       <div>
         password
         <input
+          id="password"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id="login-button" type="submit">
+        login
+      </button>
     </form>
   );
 });
