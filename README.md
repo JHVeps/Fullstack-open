@@ -1,36 +1,41 @@
 # Fullstack-open
 
-## osa 0
+## part 0
 
-kaikki tehty
+All done
 
-## osa 1
+## part 1
 
-kaikki tehty
+All done
 
-## osa 2
+## part 2
 
-a kaikki tehty</br>
-b kaikki tehty</br>
-c kaikki tehty</br>
-d kaikki tehty</br>
-e kaikki tehty
+a All done</br>
+b All done</br>
+c All done</br>
+d All done</br>
+e All done
 
-## osa 3
+## part 3
 
-Kaikki tehty.</br>
-Tehtävät 3.10, 3.11 ja 3.21 eri repositoriossa -> https://github.com/JHVeps/Puhelinluettelo-backend
+All done</br>
+Assigments 3.10, 3.11 ja 3.21 in different repository here -> https://github.com/JHVeps/Puhelinluettelo-backend
 
-## osa 4
+## part 4
 
-a kaikki tehty</br>
-b kaikki tehty</br>
-c ei tehtäviä</br>
-d kaikki tehty</br>
+a All done</br>
+b All done</br>
+c No asignments</br>
+d All done</br>
 
-## osa 5
+## part 5
 
-a kaikki tehty</br>
-b kaikki tehty</br>
-c kaikki tehty</br>
-d kaikki tehty</br>
+a All done</br>
+b All done</br>
+c All done</br>
+d All done</br>
+
+## part 6
+
+a 6.1 done</br>
+
