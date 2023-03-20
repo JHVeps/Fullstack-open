@@ -37,5 +37,5 @@ d All done</br>
 
 ## part 6
 
-a 6.1 done</br>
+a 6.1 - 6.4 done</br>
 
