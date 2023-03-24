@@ -38,4 +38,5 @@ d All done</br>
 ## part 6
 
 a All done</br>
-b
+b All done</br>
+c 6.14 - 6.17 done</br>
