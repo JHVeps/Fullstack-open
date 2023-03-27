@@ -26,27 +26,27 @@ const anecdoteSlice = createSlice({
   name: "anecdotes",
   initialState: [],
   reducers: {
-    //createAnecdote(state, action) {
-    //state.push(action.payload);
+    // createAnecdote(state, action) {
+    // state.push(action.payload);
     // const content = action.payload;
     // state.push({
     //   content,
     //   id: getId(),
     // });
+    //},
+    // voteAnecdote(state, action) {
+    //   const id = action.payload;
+    //   const anecdoteToVote = state.find((a) => a.id === id);
+
+    //   const votedAnecdote = {
+    //     ...anecdoteToVote,
+    //     votes: anecdoteToVote.votes + 1,
+    //   };
+
+    //   return state.map((anecdote) =>
+    //     anecdote.id !== id ? anecdote : votedAnecdote
+    //   );
     // },
-    voteAnecdote(state, action) {
-      const id = action.payload;
-      const anecdoteToVote = state.find((a) => a.id === id);
-
-      const votedAnecdote = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1,
-      };
-
-      return state.map((anecdote) =>
-        anecdote.id !== id ? anecdote : votedAnecdote
-      );
-    },
     appendAnecdote(state, action) {
       state.push(action.payload);
     },
@@ -95,8 +95,7 @@ const anecdoteSlice = createSlice({
 //   };
 // };
 
-export const { voteAnecdote, appendAnecdote, setAnecdotes } =
-  anecdoteSlice.actions;
+export const { appendAnecdote, setAnecdotes } = anecdoteSlice.actions;
 
 export const initializeAnecdotes = () => {
   return async (dispatch) => {
@@ -109,6 +108,25 @@ export const createAnecdote = (content) => {
   return async (dispatch) => {
     const newAnecdote = await anecdoteService.createNew(content);
     dispatch(appendAnecdote(newAnecdote));
+  };
+};
+
+export const voteAnecdote = (data) => {
+  return async (dispatch) => {
+    const votedAnecdote = {
+      ...data.updatedAnecdote,
+      votes: data.updatedAnecdote.votes + 1,
+    };
+
+    await anecdoteService.voteAnecdote(votedAnecdote);
+
+    const anecdotes = await anecdoteService.getAll();
+
+    anecdotes.map((anecdote) =>
+      anecdote.id !== data.updatedAnecdote.id ? anecdote : votedAnecdote
+    );
+
+    dispatch(setAnecdotes(anecdotes));
   };
 };
 

@@ -16,10 +16,12 @@ const AnecdoteList = () => {
     return state.filter;
   });
 
-  const vote = ({ id, content }) => {
-    console.log("vote", id, content);
-    dispatch(voteAnecdote(id));
-    dispatch(setNotification(`Voted  "${content}"`));
+  const vote = (anecdote) => {
+    console.log("voted", anecdote.id, anecdote.content);
+
+    const data = { id: anecdote.id, updatedAnecdote: anecdote };
+    dispatch(voteAnecdote(data));
+    dispatch(setNotification(`Voted  "${anecdote.content}"`));
     setTimeout(() => {
       dispatch(setNotification(null));
     }, 5000);
