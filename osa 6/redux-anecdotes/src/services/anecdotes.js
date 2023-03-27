@@ -13,8 +13,9 @@ const createNew = async (content) => {
   return response.data;
 };
 
-const voteAnecdote = async (data) => {
+const voteAnecdote = async (data, time) => {
   console.log("data: ", data);
+
   const id = data.id;
 
   const response = await axios.put(`${baseUrl}/${id}`, data);

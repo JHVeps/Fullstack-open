@@ -21,10 +21,7 @@ const AnecdoteList = () => {
 
     const data = { id: anecdote.id, updatedAnecdote: anecdote };
     dispatch(voteAnecdote(data));
-    dispatch(setNotification(`Voted  "${anecdote.content}"`));
-    setTimeout(() => {
-      dispatch(setNotification(null));
-    }, 5000);
+    dispatch(setNotification(`you voted  "${anecdote.content}"`, 10));
   };
   return (
     <div>
