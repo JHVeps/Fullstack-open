@@ -1,11 +1,28 @@
-import { useQuery } from "react-query";
-import { getAnecdotes } from "./requests";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { getAnecdotes, voteAnecdote } from "./requests";
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 
 const App = () => {
-  const handleVote = (anecdote) => {
-    console.log("vote");
+  const queryClient = useQueryClient();
+  const newAnecdoteMutation = useMutation(voteAnecdote, {
+    onSuccess: (anecdote, updatedAnectode) => {
+      let anecdotes = queryClient.getQueryData("anecdotes");
+      anecdotes = anecdotes.filter(
+        (anecdote) => anecdote.id !== updatedAnectode.id
+      );
+      queryClient.setQueryData("anecdotes", anecdotes.concat(updatedAnectode));
+    },
+  });
+
+  const handleVote = async (anecdote) => {
+    const updatedAnectode = {
+      id: anecdote.id,
+      content: anecdote.content,
+      votes: anecdote.votes + 1,
+    };
+    console.log("anecdote: ", anecdote);
+    newAnecdoteMutation.mutate(updatedAnectode);
   };
 
   const result = useQuery("anecdotes", getAnecdotes, {
@@ -35,7 +52,7 @@ const App = () => {
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
-            has {anecdote.votes}
+            has {anecdote.votes} votes
             <button onClick={() => handleVote(anecdote)}>vote</button>
           </div>
         </div>
