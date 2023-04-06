@@ -6,6 +6,8 @@ const notificationReducer = (state, action) => {
       return action.payload;
     case "VOTE":
       return action.payload;
+    case "SHORT":
+      return action.payload;
     case "NULL":
       return null;
     default:
