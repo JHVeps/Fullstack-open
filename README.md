@@ -41,3 +41,12 @@ a All done</br>
 b All done</br>
 c All done</br>
 d </br>
+
+## part 7
+
+a All done</br>
+b </br>
+c </br>
+d </br>
+e </br>
+f </br>
