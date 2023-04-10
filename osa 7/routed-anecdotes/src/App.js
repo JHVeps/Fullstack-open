@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
+import { useField } from "./hooks/index";
 
 const Menu = () => {
   const padding = {
@@ -92,16 +93,19 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
+  // const [content, setContent] = useState("");
+  // const [author, setAuthor] = useState("");
+  // const [info, setInfo] = useState("");
+  const content = useField("text");
+  const author = useField("text");
+  const info = useField("text");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
   };
@@ -112,27 +116,41 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input
+          {/* <input
             name="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-          />
+          /> */}
+          {/* <input
+            type={content.type}
+            value={content.value}
+            onChange={content.onChange}
+          /> */}
+          <input {...content} />
         </div>
         <div>
           author
-          <input
+          {/* <input
             name="author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-          />
+          /> */}
+          {/* <input
+            type={author.type}
+            value={author.value}
+            onChange={author.onChange}
+          /> */}
+          <input {...author} />
         </div>
         <div>
           url for more info
-          <input
+          {/* <input
             name="info"
             value={info}
             onChange={(e) => setInfo(e.target.value)}
-          />
+          /> */}
+          {/* <input type={info.type} value={info.value} onChange={info.onChange} /> */}
+          <input {...info} />
         </div>
         <button>create</button>
       </form>

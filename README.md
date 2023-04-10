@@ -25,7 +25,7 @@ Assigments 3.10, 3.11 ja 3.21 in different repository here -> https://github.com
 
 a All done</br>
 b All done</br>
-c No asignments</br>
+c No assignments</br>
 d All done</br>
 
 ## part 5
@@ -40,7 +40,7 @@ d All done</br>
 a All done</br>
 b All done</br>
 c All done</br>
-d </br>
+d No assignments</br>
 
 ## part 7
 
