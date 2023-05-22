@@ -102,10 +102,16 @@ const CreateNew = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // props.addNew({
+    //   content: content.value,
+    //   author: author.value,
+    //   info: info.value,
+    //   votes: 0,
+    // });
     props.addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
+      content: content.inputProps.value,
+      author: author.inputProps.value,
+      info: info.inputProps.value,
       votes: 0,
     });
   };
@@ -115,6 +121,12 @@ const CreateNew = (props) => {
     author.reset();
     info.reset();
   };
+
+  // const clearInputs = () => {
+  //   content.onChange({ target: { value: "" } });
+  //   author.onChange({ target: { value: "" } });
+  //   info.onChange({ target: { value: "" } });
+  // };
 
   return (
     <div>
@@ -132,7 +144,8 @@ const CreateNew = (props) => {
             value={content.value}
             onChange={content.onChange}
           /> */}
-          <input {...content} />
+          {/* <input {...content} /> */}
+          <input {...content.inputProps} />
         </div>
         <div>
           author
@@ -146,7 +159,8 @@ const CreateNew = (props) => {
             value={author.value}
             onChange={author.onChange}
           /> */}
-          <input {...author} />
+          {/* <input {...author} /> */}
+          <input {...author.inputProps} />
         </div>
         <div>
           url for more info
@@ -156,7 +170,8 @@ const CreateNew = (props) => {
             onChange={(e) => setInfo(e.target.value)}
           /> */}
           {/* <input type={info.type} value={info.value} onChange={info.onChange} /> */}
-          <input {...info} />
+          {/* <input {...info} /> */}
+          <input {...info.inputProps} />
         </div>
         <button onClick={handleSubmit}>create</button>
         <button onClick={clearInputs}>reset</button>
