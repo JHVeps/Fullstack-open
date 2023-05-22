@@ -110,10 +110,16 @@ const CreateNew = (props) => {
     });
   };
 
+  const clearInputs = () => {
+    content.reset();
+    author.reset();
+    info.reset();
+  };
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           content
           {/* <input
@@ -152,7 +158,8 @@ const CreateNew = (props) => {
           {/* <input type={info.type} value={info.value} onChange={info.onChange} /> */}
           <input {...info} />
         </div>
-        <button>create</button>
+        <button onClick={handleSubmit}>create</button>
+        <button onClick={clearInputs}>reset</button>
       </form>
     </div>
   );
