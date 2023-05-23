@@ -24,7 +24,7 @@ const useCountry = (name) => {
       .get(`${url}/${name}`)
       .then((response) => {
         const data = response.data;
-        console.log("data: ", data);
+
         if (data) {
           setCountry({ data, found: true });
         } else {
@@ -37,13 +37,10 @@ const useCountry = (name) => {
       });
   }, [name]);
 
-  console.log("country in useCountry: ", country);
-
   return country;
 };
 
 const Country = ({ country }) => {
-  console.log("country in Country: ", country);
   if (!country) {
     return null;
   }
@@ -70,8 +67,6 @@ const App = () => {
   const nameInput = useField("text");
   const [name, setName] = useState("");
   const country = useCountry(name);
-
-  console.log("country in App: ", country);
 
   const fetch = (e) => {
     e.preventDefault();
