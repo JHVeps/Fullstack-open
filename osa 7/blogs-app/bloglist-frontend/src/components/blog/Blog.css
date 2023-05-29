@@ -1,0 +1,8 @@
+.blog__info {
+  list-style-type: none;
+}
+
+.delete__button {
+  border-radius: 5px;
+  background-color: skyblue;
+}
