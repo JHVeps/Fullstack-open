@@ -2,15 +2,14 @@ import React, { useState, forwardRef } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import loginService from "../../services/login";
-import blogServices from "../../services/blogs";
 import { setMessage } from "../../features/notificationSlice";
+import { setUser } from "../../features/userSlice";
 
 const LoginForm = forwardRef((props, ref) => {
-  const { setUser } = props;
-
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -20,12 +19,13 @@ const LoginForm = forwardRef((props, ref) => {
       });
 
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogServices.setToken(user.token);
-      setUser(user);
+
+      dispatch(setUser(user));
+
       console.log("user id: ", user.id);
       setUsername("");
       setPassword("");
-      dispatch(setMessage(`User ${user.name} logged in successfully`));
+      dispatch(setMessage(`User ${user.username} logged in successfully`));
       setTimeout(() => {
         dispatch(setMessage(null));
       }, 5000);

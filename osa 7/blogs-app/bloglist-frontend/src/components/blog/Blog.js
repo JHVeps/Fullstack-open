@@ -1,11 +1,11 @@
 import { useState } from "react";
-import blogServices from "../../services/blogs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../features/notificationSlice";
+import { deleteBlog, likeBlog } from "../../features/blogsSlice";
 
 import "./Blog.css";
 
-const Blog = (props) => {
+const Blog = ({ user, blog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -13,42 +13,37 @@ const Blog = (props) => {
     borderWidth: 1,
     marginBottom: 5,
   };
-
-  const { user, blog, fetcher, setFetcher, addLike } = props;
-
   const dispatch = useDispatch();
+  const [showAllInfo, setShowAllInfo] = useState(false);
 
-  //Commented out for 5.15 assignment to work. Same addLike comes as props.
-  // const addLike = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const blogObject = {
-  //       title: blog.title,
-  //       author: blog.author,
-  //       url: blog.url,
-  //       likes: blog.likes + 1,
-  //     };
-  //     await blogServices.update(blog.id, blogObject);
-  //     setFetcher(!fetcher);
-  //     setNotificationMessage(`Liked "${blogObject.title}"!`);
-  //     setTimeout(() => {
-  //       setNotificationMessage(null);
-  //     }, 5000);
-  //   } catch (exception) {
-  //     console.log("Error", exception.response.data);
-  //     setErrorNotificationMessage(exception.response.data);
-  //     setTimeout(() => {
-  //       setErrorNotificationMessage(null);
-  //     }, 5000);
-  //   }
-  // };
+  const token = useSelector((state) => {
+    console.log("token: ", state.userInState.token);
+    return state.userInState.token;
+  });
+
+  const addLike = async (event) => {
+    event.preventDefault();
+    try {
+      const data = { id: blog.id, updatedBlog: blog };
+      dispatch(likeBlog(data, token));
+      dispatch(setMessage(`Liked "${blog.title}"!`));
+      setTimeout(() => {
+        dispatch(setMessage(null));
+      }, 5000);
+    } catch (exception) {
+      console.log("Error", exception.response.data);
+      dispatch(setMessage(`Error: ${exception.response.data.error}`));
+      setTimeout(() => {
+        dispatch(setMessage(null));
+      }, 5000);
+    }
+  };
 
   const remove = async (event) => {
     event.preventDefault();
     if (window.confirm(`Delete ${blog.title} ?`)) {
       try {
-        await blogServices.remove(blog.id);
-        setFetcher(!fetcher);
+        dispatch(deleteBlog(blog.id, token));
         dispatch(setMessage(`Deleted "${blog.title}"!`));
         setTimeout(() => {
           dispatch(setMessage(null));
@@ -63,12 +58,14 @@ const Blog = (props) => {
     }
   };
 
-  const [showAllInfo, setShowAllInfo] = useState(false);
-
   const toggleShowAllInfo = (event) => {
     event.preventDefault();
     setShowAllInfo(!showAllInfo);
   };
+
+  if (!blog || !user) {
+    return null;
+  }
 
   return (
     <div className="blog" style={blogStyle}>
@@ -105,13 +102,13 @@ const Blog = (props) => {
             </button>
           </li>
           <li id="user">{blog.user.name}</li>
-          {user.id === blog.user.id ? (
+          {user && blog && (
             <li>
               <button className="delete__button" type="button" onClick={remove}>
                 remove
               </button>
             </li>
-          ) : null}
+          )}
         </ul>
       )}
     </div>

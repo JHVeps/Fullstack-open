@@ -1,82 +1,69 @@
-import { useState, useEffect } from "react";
-import blogService from "./services/blogs";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "./features/userSlice";
+import { initializeBlogs } from "./features/blogsSlice";
 import Notification from "./components/notifications/Notification";
 import LoginForm from "./components/loginform/LoginForm";
-import Blog from "./components/blog/Blog";
 import BlogForm from "./components/blogform/BlogForm";
-import { setMessage } from "./features/notificationSlice";
+import Blog from "./components/blog/Blog";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
-  const [fetcher, setFetcher] = useState(false);
-  const [showBlogForm, setShowBlogForm] = useState(false);
   const dispatch = useDispatch();
+  const [showBlogForm, setShowBlogForm] = useState(false);
+  const [fetcher, setFetcher] = useState(false);
+  const blogs = useSelector((state) => {
+    console.log("state.blogsInState: ", state.blogsInState);
+    return state.blogsInState;
+  });
+  const notification = useSelector((state) => {
+    console.log("state.notification: ", state.notification);
+    return state.notification;
+  });
+
+  const userInState = useSelector((state) => {
+    console.log("state.userInState: ", state.userInState);
+    return state.userInState;
+  });
+
   const switchBlogFormState = () => {
     setShowBlogForm(!showBlogForm);
   };
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      console.log("response: ", blogs);
-      setBlogs(blogs);
-    });
-  }, [fetcher]);
-
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
 
-  //createBlog is here because of assignment 5.16 implementation.
-  const createBlog = async (blogObject) => {
-    try {
-      await blogService.create(blogObject);
-      setFetcher(!fetcher);
-      dispatch(setMessage(`Added ${blogObject.title}`));
-      setShowBlogForm(!showBlogForm);
-      setTimeout(() => {
-        dispatch(setMessage(null));
-      }, 5000);
-    } catch (exception) {
-      console.log("Error", exception.response.data);
-      dispatch(setMessage(`Error: ${exception.response.data.error}`));
-      setTimeout(() => {
-        dispatch(setMessage(null));
-      }, 5000);
-    }
-  };
-
-  //addLike is here because of assignment 5.15 implementation.
-  const addLike = async (id) => {
-    try {
-      const blogObject = blogs.find((b) => b.id === id);
-      const newBlogObject = {
-        ...blogObject,
-        likes: blogObject.likes + 1,
+      const userState = {
+        userInfo: user,
+        token: user.token,
       };
-      await blogService.update(blogObject.id, newBlogObject);
-      setFetcher(!fetcher);
-    } catch (exception) {
-      dispatch(setMessage(`Error: ${exception.response.data.error}`));
-      setTimeout(() => {
-        dispatch(setMessage(null));
-      }, 5000);
-    }
-  };
 
-  if (!user) {
+      dispatch(setUser(userState));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(initializeBlogs());
+  }, [dispatch]);
+
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
+
+  console.log("state.blogsInState: ", blogs);
+  console.log("state.notification: ", notification);
+  console.log("state.userInState: ", userInState);
+
+  if (
+    !userInState.user ||
+    !userInState.user.userInfo ||
+    !userInState.user.userInfo.username
+  ) {
     return (
       <div className="app">
         <h2>blogs</h2>
         <Notification />
         <h2>Login</h2>
-        <LoginForm setUser={setUser} />
+        <LoginForm />
       </div>
     );
   }
@@ -89,43 +76,34 @@ const App = () => {
     <div className="app">
       <h2>blogs</h2>
       <Notification />
-      <p>
-        {user.username} logged in
-        <button
-          className="login__button"
-          type="button"
-          onClick={() => logout()}
-        >
-          logout
-        </button>
-      </p>
-
+      {userInState.user && (
+        <p>
+          {userInState.user.userInfo.username} logged in
+          <button
+            className="login__button"
+            type="button"
+            onClick={() => logout()}
+          >
+            logout
+          </button>
+        </p>
+      )}
       <button type="button" onClick={switchBlogFormState}>
         add new
       </button>
       {showBlogForm && (
         <>
           <BlogForm
-            createBlog={createBlog}
             showBlogForm={showBlogForm}
             setShowBlogForm={setShowBlogForm}
-          />
-        </>
-      )}
-      {blogs
-        .sort(function (a, b) {
-          return b.likes - a.likes;
-        })
-        .map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-            addLike={() => addLike(blog.id)}
             fetcher={fetcher}
             setFetcher={setFetcher}
           />
-        ))}
+        </>
+      )}
+      {sortedBlogs.map((blog) => (
+        <Blog key={blog.id} blog={blog} user={userInState.user} />
+      ))}
     </div>
   );
 };

@@ -1,53 +1,44 @@
 import React, { useState } from "react";
-const BlogForm = (props) => {
-  const { showBlogForm, setShowBlogForm, createBlog } = props;
+import { useDispatch, useSelector } from "react-redux";
+import { setMessage } from "../../features/notificationSlice";
+import { createBlog } from "../../features/blogsSlice";
 
+const BlogForm = ({ setSortedBlogs, showBlogForm, setShowBlogForm }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
+  const dispatch = useDispatch();
 
-  const addBlog = (event) => {
-    event.preventDefault();
-    createBlog({
+  const token = useSelector((state) => {
+    console.log("token: ", state.userInState.token);
+    return state.userInState.token;
+  });
+  const addBlog = async (event) => {
+    const newBlog = {
       title: newTitle,
       author: newAuthor,
       url: newUrl,
-    });
-
-    setNewTitle("");
-    setNewAuthor("");
-    setNewUrl("");
+    };
+    try {
+      event.preventDefault();
+      dispatch(createBlog(newBlog, token));
+      dispatch(setMessage(`Added "${newTitle}"!`));
+      setShowBlogForm(!showBlogForm);
+      setTimeout(() => {
+        dispatch(setMessage(null));
+      }, 5000);
+      setNewTitle("");
+      setNewAuthor("");
+      setNewUrl("");
+    } catch (exception) {
+      console.log("Exception:", exception);
+      console.log("Exception:", exception.response.data);
+      dispatch(setMessage(exception.response.data));
+      setTimeout(() => {
+        dispatch(setMessage(null));
+      }, 5000);
+    }
   };
-
-  //Commented out for assignment 5.16 implementation to work
-
-  // const addBlog = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     const blogObject = {
-  //       title: newTitle,
-  //       author: newAuthor,
-  //       url: newUrl,
-  //     };
-  //     await blogServices.create(blogObject);
-  //     setFetcher(!fetcher);
-  //     setNotificationMessage(`Added ${blogObject.title}`);
-  //     setNewTitle("");
-  //     setNewAuthor("");
-  //     setNewUrl("");
-  //     setShowBlogForm(!showBlogForm);
-  //     setTimeout(() => {
-  //       setNotificationMessage(null);
-  //     }, 5000);
-  //   } catch (exception) {
-  //     console.log("Error", exception.response.data);
-  //     setErrorNotificationMessage(exception.response.data);
-  //     setTimeout(() => {
-  //       setErrorNotificationMessage(null);
-  //     }, 5000);
-  //   }
-  // };
 
   return (
     <div className="blogForm__container">

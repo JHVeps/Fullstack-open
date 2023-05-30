@@ -1,12 +1,12 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import notificationReducer from "./features/notificationSlice";
-
-const rootReducer = combineReducers({
-  notification: notificationReducer,
-});
+import blogsReducer from "./features/blogsSlice";
+import userReducer from "./features/userSlice";
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    notification: notificationReducer,
+    blogsInState: blogsReducer,
+    userInState: userReducer,
+  },
 });
-
-export const RootState = store.getState();
