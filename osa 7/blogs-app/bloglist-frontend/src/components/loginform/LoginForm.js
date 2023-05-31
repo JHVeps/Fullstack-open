@@ -1,14 +1,32 @@
-import React, { useState, forwardRef } from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { setUser } from "../../features/loginSlice";
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import loginService from "../../services/login";
 import { setMessage } from "../../features/notificationSlice";
-import { setUser } from "../../features/userSlice";
+import Notification from "../notifications/Notification";
 
-const LoginForm = forwardRef((props, ref) => {
+const LoginForm = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+
+      const userState = {
+        user: user,
+        token: user.token,
+      };
+
+      dispatch(setUser(userState));
+    }
+  }, [dispatch]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -25,6 +43,7 @@ const LoginForm = forwardRef((props, ref) => {
       console.log("user id: ", user.id);
       setUsername("");
       setPassword("");
+      navigate("/home");
       dispatch(setMessage(`User ${user.username} logged in successfully`));
       setTimeout(() => {
         dispatch(setMessage(null));
@@ -41,33 +60,39 @@ const LoginForm = forwardRef((props, ref) => {
   };
 
   return (
-    <form className="loginform" onSubmit={handleLogin} ref={ref}>
-      <div>
-        username
-        <input
-          id="username"
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          id="password"
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button id="login-button" type="submit">
-        login
-      </button>
-    </form>
+    <div className="login">
+      <h2>blogs</h2>
+      <Notification />
+      <h2>Login</h2>
+
+      <form className="login__form" onSubmit={handleLogin}>
+        <div>
+          username
+          <input
+            id="username"
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+          <input
+            id="password"
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button id="login-button" type="submit">
+          login
+        </button>
+      </form>
+    </div>
   );
-});
+};
 
 LoginForm.displayName = "LoginForm";
 

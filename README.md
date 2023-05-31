@@ -46,7 +46,7 @@ d No assignments</br>
 
 a All done</br>
 b All done</br>
-c </br>
-d </br>
-e </br>
-f </br>
+c No assignments</br>
+d No assignments</br>
+e No assignments</br>
+f Redux 7.9-7.13 done</br>
