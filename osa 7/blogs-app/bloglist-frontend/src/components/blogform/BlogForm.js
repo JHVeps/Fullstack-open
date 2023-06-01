@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../features/notificationSlice";
 import { createBlog } from "../../features/blogsSlice";
@@ -10,8 +10,8 @@ const BlogForm = ({ setSortedBlogs, showBlogForm, setShowBlogForm }) => {
   const dispatch = useDispatch();
 
   const token = useSelector((state) => {
-    console.log("token: ", state.userInState.token);
-    return state.userInState.token;
+    console.log("token: ", state.loginState.token);
+    return state.loginState.token;
   });
   const addBlog = async (event) => {
     const newBlog = {

@@ -1,13 +1,23 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../../features/notificationSlice";
-import { likeBlog, deleteBlog } from "../../../features/blogsSlice";
+import { useNavigate } from "react-router-dom";
+import {
+  likeBlog,
+  deleteBlog,
+  createComment,
+} from "../../../features/blogsSlice";
 import Banner from "../../banner/Banner";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+import "./Blog.css";
 
 const Blog = () => {
   const { blogId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [comment, setComment] = useState("");
   const blogsInState = useSelector((state) => {
     return state.blogsInState;
   });
@@ -15,7 +25,6 @@ const Blog = () => {
   const blog = blogsInState.find((blog) => blog.id === blogId);
 
   console.log("blogs in state: ", blogsInState);
-
   console.log("blog found from state: ", blog);
 
   const token = useSelector((state) => {
@@ -41,12 +50,35 @@ const Blog = () => {
     }
   };
 
+  const addComment = async (event) => {
+    const newComment = {
+      comment: comment,
+    };
+    try {
+      event.preventDefault();
+      dispatch(createComment(blogId, newComment));
+      dispatch(setMessage(`Added comment: "${comment}"!`));
+      setTimeout(() => {
+        dispatch(setMessage(null));
+      }, 5000);
+      setComment("");
+    } catch (exception) {
+      console.log("Exception:", exception);
+      console.log("Exception:", exception.response.data);
+      dispatch(setMessage(exception.response.data));
+      setTimeout(() => {
+        dispatch(setMessage(null));
+      }, 5000);
+    }
+  };
+
   const remove = async (event) => {
     event.preventDefault();
     if (window.confirm(`Delete ${blog.title} ?`)) {
       try {
         dispatch(deleteBlog(blog.id, token));
         dispatch(setMessage(`Deleted "${blog.title}"!`));
+        navigate("/home");
         setTimeout(() => {
           dispatch(setMessage(null));
         }, 5000);
@@ -82,11 +114,20 @@ const Blog = () => {
             <li key={comment.id}>{comment.comment}</li>
           ))}
         </ul>
-        <li>
-          <button className="delete__button" type="button" onClick={remove}>
-            remove
+        <form onSubmit={addComment}>
+          <input
+            id="title"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="comment..."
+          />
+          <button id="create-button" className="create__button" type="submit">
+            add comment
           </button>
-        </li>
+        </form>
+        <button className="delete__button" type="button" onClick={remove}>
+          remove
+        </button>
       </div>
     </div>
   );

@@ -26,6 +26,16 @@ export const createNewBlog = async (newObject, token) => {
   }
 };
 
+export const createNewComment = async (id, newComment) => {
+  const url = `${baseUrl}/${id}/comments`;
+  try {
+    const response = await axios.post(url, newComment);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export const updateBlog = async (id, newObject, token) => {
   const newToken = `Bearer ${token}`;
   const config = {

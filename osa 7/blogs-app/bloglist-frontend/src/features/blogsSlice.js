@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getAllBlogs,
   createNewBlog,
+  createNewComment,
   updateBlog,
   removeBlog,
 } from "../services/blogs";
@@ -50,7 +51,7 @@ const blogsSlice = createSlice({
   },
 });
 
-export const { appendBlog, setBlogs } = blogsSlice.actions;
+export const { appendBlog, appendComment, setBlogs } = blogsSlice.actions;
 
 export const initializeBlogs = () => {
   return async (dispatch) => {
@@ -63,6 +64,14 @@ export const createBlog = (content, token) => {
   return async (dispatch) => {
     const newBlog = await createNewBlog(content, token);
     dispatch(appendBlog(newBlog));
+  };
+};
+
+export const createComment = (id, comment) => {
+  return async (dispatch) => {
+    await createNewComment(id, comment);
+    const blogs = await getAllBlogs();
+    dispatch(setBlogs(blogs));
   };
 };
 
