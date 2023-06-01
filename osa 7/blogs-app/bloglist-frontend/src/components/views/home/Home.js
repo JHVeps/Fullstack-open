@@ -4,7 +4,6 @@ import { initializeBlogs } from "../../../features/blogsSlice";
 import BlogForm from "../../blogform/BlogForm";
 import Blog from "../../blog/Blog";
 import Banner from "../../banner/Banner";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -34,18 +33,9 @@ const Home = () => {
     <div>
       <Banner />
       <button type="button" onClick={switchBlogFormState}>
-        add new
+        create new
       </button>
-      <button type="button">
-        <Link
-          style={{
-            textDecoration: "none",
-          }}
-          to="/users"
-        >
-          users
-        </Link>
-      </button>
+
       {showBlogForm && (
         <>
           <BlogForm

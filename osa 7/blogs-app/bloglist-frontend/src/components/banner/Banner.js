@@ -1,7 +1,8 @@
-import { clearUser } from "../../features/loginSlice";
-import Notification from "../notifications/Notification";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { clearUser } from "../../features/loginSlice";
+import Notification from "../notifications/Notification";
+import { Link } from "react-router-dom";
 
 function Banner() {
   const dispatch = useDispatch();
@@ -20,12 +21,38 @@ function Banner() {
 
   return (
     <div>
-      <h2>blogs</h2>
       <Notification />
-      <p>{loginState.user.username} logged in </p>
-      <button className="login__button" type="button" onClick={() => logout()}>
-        logout
-      </button>
+      <div>
+        <button type="button">
+          <Link
+            style={{
+              textDecoration: "none",
+            }}
+            to="/home"
+          >
+            blogs
+          </Link>
+        </button>
+        <button type="button">
+          <Link
+            style={{
+              textDecoration: "none",
+            }}
+            to="/users"
+          >
+            users
+          </Link>
+        </button>
+        {loginState.user.username} logged in
+        <button
+          className="login__button"
+          type="button"
+          onClick={() => logout()}
+        >
+          logout
+        </button>
+      </div>
+      <h2>blog app</h2>
     </div>
   );
 }

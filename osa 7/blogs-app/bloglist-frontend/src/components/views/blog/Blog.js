@@ -19,8 +19,8 @@ const Blog = () => {
   console.log("blog found from state: ", blog);
 
   const token = useSelector((state) => {
-    console.log("token: ", state.userInState.token);
-    return state.userInState.token;
+    console.log("token: ", state.loginState.token);
+    return state.loginState.token;
   });
 
   const addLike = async (event) => {

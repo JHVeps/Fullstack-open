@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../features/loginSlice";
+import { setUser } from "../../../features/loginSlice";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import loginService from "../../services/login";
-import { setMessage } from "../../features/notificationSlice";
-import Notification from "../notifications/Notification";
+import loginService from "../../../services/login";
+import { setMessage } from "../../../features/notificationSlice";
+import Notification from "../../notifications/Notification";
 
 const LoginForm = (props) => {
   const dispatch = useDispatch();

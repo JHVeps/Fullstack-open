@@ -20,17 +20,6 @@ const Users = () => {
   return (
     <div>
       <Banner />
-
-      <button type="button">
-        <Link
-          style={{
-            textDecoration: "none",
-          }}
-          to="/home"
-        >
-          home
-        </Link>
-      </button>
       <h2>Users</h2>
       <table>
         <thead>

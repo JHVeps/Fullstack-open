@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginForm from "./components/loginform/LoginForm";
+import LoginForm from "./components/views/loginform/LoginForm";
 import Home from "./components/views/home/Home";
 import Users from "./components/views/users/Users";
 import User from "./components/views/user/User";
