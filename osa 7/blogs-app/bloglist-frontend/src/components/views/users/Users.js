@@ -3,6 +3,15 @@ import { useEffect } from "react";
 import { initializeUsers } from "../../../features/usersSlice";
 import Banner from "../../banner/Banner";
 import { Link } from "react-router-dom";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -17,29 +26,47 @@ const Users = () => {
     dispatch(initializeUsers());
   }, [dispatch]);
 
+  const style = {
+    p: 10,
+    margin: 5,
+    borderRadius: 2,
+    bgcolor: "#bada55",
+  };
+  const headerStyle = { p: 2 };
+  const tableStyle = { margin: 5 };
+
   return (
-    <div>
+    <Box sx={style}>
       <Banner />
-      <h2>Users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Blogs created</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Typography variant="h4" sx={headerStyle}>
+        Users
+      </Typography>
+      <Table sx={tableStyle}>
+        <TableHead>
+          <TableRow>
+            <TableCell>NAME</TableCell>
+            <TableCell>BLOGS CREATED</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {usersInState.map((user) => (
-            <tr key={user.id}>
-              <td>
-                <Link to={`/users/${user.id}`}>{user.name}</Link>
-              </td>
-              <td>{user.blogs.length}</td>
-            </tr>
+            <TableRow key={user.id}>
+              <TableCell>
+                <Link
+                  style={{
+                    textDecoration: "none",
+                  }}
+                  to={`/users/${user.id}`}
+                >
+                  {user.name}
+                </Link>
+              </TableCell>
+              <TableCell>{user.blogs.length}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </Box>
   );
 };
 

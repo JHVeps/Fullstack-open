@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginForm from "./components/views/loginform/LoginForm";
 import Home from "./components/views/home/Home";
@@ -6,8 +7,9 @@ import User from "./components/views/user/User";
 import Blog from "./components/views/blog/Blog";
 
 const App = () => {
+  const appStyle = { bgcolor: "#2c2c2c" };
   return (
-    <div className="app">
+    <Box sx={appStyle}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginForm />} />
@@ -17,7 +19,7 @@ const App = () => {
           <Route path="/blogs/:blogId" element={<Blog />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Box>
   );
 };
 

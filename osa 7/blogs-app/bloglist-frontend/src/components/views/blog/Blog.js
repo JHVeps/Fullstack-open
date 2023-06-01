@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { setMessage } from "../../../features/notificationSlice";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,10 +9,17 @@ import {
   createComment,
 } from "../../../features/blogsSlice";
 import Banner from "../../banner/Banner";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 
-import "./Blog.css";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const Blog = () => {
   const { blogId } = useParams();
@@ -92,44 +100,77 @@ const Blog = () => {
     }
   };
 
+  const style = {
+    p: 10,
+    margin: 5,
+    borderRadius: 2,
+    bgcolor: "#bada55",
+  };
+  const headerStyle = { p: "10px" };
+  const textFieldStyle = { bgcolor: "white", borderRadius: 2, mt: 1, mb: 1 };
+  const buttonStyle = { mt: 1, mb: 1, ml: 2 };
   return (
-    <div>
+    <Box sx={style}>
       <Banner />
-      <h2>{blog.title}</h2>
-      <div className="blog__info">
-        <li id="titleAndAuthor">
-          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        </li>
-        <li id="url">{blog.url}</li>
-        <li id="likes">
-          likes {blog.likes}
-          <button className="like__button" type="button" onClick={addLike}>
-            like
-          </button>
-        </li>
-        <li id="user">added by {blog.user.name}</li>
-        <h2>comments</h2>
-        <ul>
+      <Typography variant="h4" sx={headerStyle}>
+        {blog.title}
+      </Typography>
+      <Box className="blog__info">
+        <List>
+          <ListItem id="url">{blog.url}</ListItem>
+          <ListItem id="likes">
+            likes {blog.likes}
+            <Button
+              size="small"
+              sx={buttonStyle}
+              variant="contained"
+              endIcon={<FavoriteIcon />}
+              color="success"
+              type="button"
+              onClick={addLike}
+            >
+              like
+            </Button>
+          </ListItem>
+          <ListItem id="user">added by {blog.user.name}</ListItem>
+        </List>
+        <Typography variant="h5">comments</Typography>
+        <List>
           {blog.comments.map((comment) => (
-            <li key={comment.id}>{comment.comment}</li>
+            <ListItem key={comment.id}>{comment.comment}</ListItem>
           ))}
-        </ul>
-        <form onSubmit={addComment}>
-          <input
-            id="title"
+        </List>
+        <Box component="form" onSubmit={addComment}>
+          <TextField
+            id="comment"
+            sx={textFieldStyle}
             value={comment}
+            color="success"
             onChange={(e) => setComment(e.target.value)}
-            placeholder="comment..."
+            label="comment"
           />
-          <button id="create-button" className="create__button" type="submit">
+          <Button
+            id="create-button"
+            sx={buttonStyle}
+            variant="contained"
+            color="success"
+            type="submit"
+          >
             add comment
-          </button>
-        </form>
-        <button className="delete__button" type="button" onClick={remove}>
+          </Button>
+        </Box>
+        <Button
+          sx={buttonStyle}
+          variant="contained"
+          startIcon={<DeleteIcon />}
+          color="error"
+          type="button"
+          onClick={remove}
+        >
           remove
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

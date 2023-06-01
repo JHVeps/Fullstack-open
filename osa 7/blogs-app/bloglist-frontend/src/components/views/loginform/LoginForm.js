@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../features/loginSlice";
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import loginService from "../../../services/login";
 import { setMessage } from "../../../features/notificationSlice";
 import Notification from "../../notifications/Notification";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 const LoginForm = (props) => {
   const dispatch = useDispatch();
@@ -58,48 +58,66 @@ const LoginForm = (props) => {
       }, 5000);
     }
   };
-
+  const style = { textAlign: "center", color: "white" };
+  const headerStyle = {
+    color: "white",
+    textAlign: "center",
+    p: "10px",
+    mt: 5,
+    mb: 5,
+  };
+  const textFieldStyle = { bgcolor: "white", borderRadius: 2, mt: 1, mb: 1 };
+  const buttonStyle = { mt: 1, mb: 1, ml: 2 };
   return (
-    <div className="login">
-      <h2>blogs</h2>
+    <Box sx={style}>
+      <Typography variant="h3" sx={headerStyle}>
+        Blogs app
+      </Typography>
       <Notification />
-      <h2>Login</h2>
+      <Typography variant="h5">Login</Typography>
 
-      <form className="login__form" onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+      <Box component="form" onSubmit={handleLogin}>
+        <Box>
+          <TextField
+            required
+            sx={textFieldStyle}
+            color="success"
             id="username"
             type="text"
+            label="username"
             value={username}
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
-        <div>
-          password
-          <input
+        </Box>
+        <Box>
+          <TextField
+            required
+            sx={textFieldStyle}
+            color="success"
             id="password"
             type="password"
+            label="password"
             value={password}
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
-        <button id="login-button" type="submit">
+        </Box>
+        <Button
+          id="login-button"
+          sx={buttonStyle}
+          size="large"
+          variant="contained"
+          color="success"
+          type="submit"
+        >
           login
-        </button>
-      </form>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
 LoginForm.displayName = "LoginForm";
-
-LoginForm.propTypes = {
-  setUser: PropTypes.any,
-  setNotificationMessage: PropTypes.any,
-  setErrorNotificationMessage: PropTypes.any,
-};
 
 export default LoginForm;

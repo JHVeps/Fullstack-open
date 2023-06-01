@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Banner from "../../banner/Banner";
+import { Box, List, ListItem, Typography } from "@mui/material";
 
 const User = () => {
   const { userId } = useParams();
@@ -18,17 +19,27 @@ const User = () => {
     return null;
   }
 
+  const style = {
+    p: 10,
+    margin: 5,
+    borderRadius: 2,
+    bgcolor: "#bada55",
+  };
+  const headerStyle = { p: 2 };
+
   return (
-    <div>
+    <Box sx={style}>
       <Banner />
-      <h2>{user.name}</h2>
-      <h3>added blogs</h3>
-      <ul>
+      <Typography variant="h5" sx={headerStyle}>
+        {user.name}
+      </Typography>
+      <Typography variant="h6">added blogs</Typography>
+      <List>
         {user.blogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
+          <ListItem key={blog.id}>{blog.title}</ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Box>
   );
 };
 

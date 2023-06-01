@@ -2,9 +2,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearUser } from "../../features/loginSlice";
 import Notification from "../notifications/Notification";
-import { Link } from "react-router-dom";
+import { Box, Button, Typography } from "@mui/material";
 
-function Banner() {
+const Banner = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,42 +19,45 @@ function Banner() {
     return state.loginState;
   });
 
+  const bannerStyle = { bgcolor: "#96b317e1", borderRadius: 2 };
+  const buttonStyle = { margin: "10px" };
+  const headerStyle = { color: "white", textAlign: "center", p: "10px" };
+
   return (
-    <div>
+    <Box sx={bannerStyle}>
       <Notification />
-      <div>
-        <button type="button">
-          <Link
-            style={{
-              textDecoration: "none",
-            }}
-            to="/home"
-          >
-            blogs
-          </Link>
-        </button>
-        <button type="button">
-          <Link
-            style={{
-              textDecoration: "none",
-            }}
-            to="/users"
-          >
-            users
-          </Link>
-        </button>
+      <Box>
+        <Button
+          variant="contained"
+          color="success"
+          sx={buttonStyle}
+          onClick={() => navigate("/home")}
+        >
+          blogs
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          sx={buttonStyle}
+          onClick={() => navigate("/users")}
+        >
+          users
+        </Button>
         {loginState.user.username} logged in
-        <button
-          className="login__button"
-          type="button"
+        <Button
+          variant="contained"
+          color="success"
+          sx={buttonStyle}
           onClick={() => logout()}
         >
           logout
-        </button>
-      </div>
-      <h2>blog app</h2>
-    </div>
+        </Button>
+      </Box>
+      <Typography variant="h2" sx={headerStyle}>
+        Blogs app
+      </Typography>
+    </Box>
   );
-}
+};
 
 export default Banner;

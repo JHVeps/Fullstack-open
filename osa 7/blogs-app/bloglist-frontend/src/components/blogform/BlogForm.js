@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../features/notificationSlice";
 import { createBlog } from "../../features/blogsSlice";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 const BlogForm = ({ setSortedBlogs, showBlogForm, setShowBlogForm }) => {
   const [newTitle, setNewTitle] = useState("");
@@ -40,53 +41,61 @@ const BlogForm = ({ setSortedBlogs, showBlogForm, setShowBlogForm }) => {
     }
   };
 
+  const textFieldStyle = { bgcolor: "white", borderRadius: 2, mt: 1, mb: 1 };
+  const buttonStyle = { mt: 1, mb: 1, ml: 2 };
   return (
-    <div className="blogForm__container">
-      <h2>Create new</h2>
-      <form onSubmit={addBlog}>
-        <div>
-          title:
-          <input
-            id="title"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="title..."
-          />
-        </div>
-        <div>
-          author:
-          <input
-            id="author"
-            value={newAuthor}
-            onChange={(e) => setNewAuthor(e.target.value)}
-            placeholder="author..."
-          />
-        </div>
-        <div>
-          url:
-          <input
-            id="url"
-            value={newUrl}
-            onChange={(e) => setNewUrl(e.target.value)}
-            placeholder="url..."
-          />
-        </div>
-        <div>
-          <button id="create-button" className="create__button" type="submit">
-            create
-          </button>
-        </div>
-        <div>
-          <button
-            className="cancel__button"
-            type="button"
-            onClick={() => setShowBlogForm(!showBlogForm)}
-          >
-            cancel
-          </button>
-        </div>
-      </form>
-    </div>
+    <Box component="form" onSubmit={addBlog}>
+      <Typography variant="h5">Create new</Typography>
+      <Box>
+        <TextField
+          sx={textFieldStyle}
+          color="success"
+          id="title"
+          label="title"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+        />
+      </Box>
+      <Box>
+        <TextField
+          sx={textFieldStyle}
+          color="success"
+          label="author"
+          id="author"
+          value={newAuthor}
+          onChange={(e) => setNewAuthor(e.target.value)}
+        />
+      </Box>
+      <Box>
+        <TextField
+          sx={textFieldStyle}
+          color="success"
+          label="url"
+          id="url"
+          value={newUrl}
+          onChange={(e) => setNewUrl(e.target.value)}
+        />
+      </Box>
+      <Box>
+        <Button
+          sx={buttonStyle}
+          id="create-button"
+          variant="contained"
+          color="success"
+          type="submit"
+        >
+          create
+        </Button>
+        <Button
+          sx={buttonStyle}
+          variant="contained"
+          color="success"
+          onClick={() => setShowBlogForm(!showBlogForm)}
+        >
+          cancel
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
