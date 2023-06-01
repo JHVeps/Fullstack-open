@@ -13,16 +13,16 @@ function Banner() {
     navigate("/");
   };
 
-  const userInState = useSelector((state) => {
-    console.log("state.userInState: ", state.userInState);
-    return state.userInState;
+  const loginState = useSelector((state) => {
+    console.log("state.loginState: ", state.loginState);
+    return state.loginState;
   });
 
   return (
     <div>
       <h2>blogs</h2>
       <Notification />
-      <p>{userInState.user.username} logged in </p>
+      <p>{loginState.user.username} logged in </p>
       <button className="login__button" type="button" onClick={() => logout()}>
         logout
       </button>

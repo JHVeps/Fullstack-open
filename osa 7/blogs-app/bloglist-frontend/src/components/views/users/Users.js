@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { initializeUsers } from "../../features/usersSlice";
-import Banner from "../banner/Banner";
+import { initializeUsers } from "../../../features/usersSlice";
+import Banner from "../../banner/Banner";
 import { Link } from "react-router-dom";
 
 const Users = () => {
