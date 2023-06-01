@@ -64,7 +64,7 @@ const Blog = () => {
     <div>
       <Banner />
       <h2>{blog.title}</h2>
-      <ul className="blog__info">
+      <div className="blog__info">
         <li id="titleAndAuthor">
           <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
         </li>
@@ -75,14 +75,19 @@ const Blog = () => {
             like
           </button>
         </li>
-        <li id="user">{blog.user.name}</li>
-
+        <li id="user">added by {blog.user.name}</li>
+        <h2>comments</h2>
+        <ul>
+          {blog.comments.map((comment) => (
+            <li key={comment.id}>{comment.comment}</li>
+          ))}
+        </ul>
         <li>
           <button className="delete__button" type="button" onClick={remove}>
             remove
           </button>
         </li>
-      </ul>
+      </div>
     </div>
   );
 };

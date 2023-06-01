@@ -62,6 +62,29 @@ blogsRouter.put("/:id", async (request, response, next) => {
   }
 });
 
+blogsRouter.post("/:id/comments", async (request, response, next) => {
+  const { comment } = request.body;
+  const blogId = request.params.id;
+
+  if (!comment || typeof comment !== "string" || comment.trim() === "") {
+    return response.status(400).json({ error: "Invalid comment" });
+  }
+
+  const blog = await Blog.findById(blogId);
+  if (!blog) {
+    return response.status(404).json({ error: "Blog not found" });
+  }
+
+  try {
+    const newComment = { comment };
+    blog.comments = [...blog.comments, newComment];
+    await blog.save();
+    response.status(201).json(blog);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 blogsRouter.delete("/:id", async (request, response, next) => {
   const blogId = request.params.id;
   const userId = request.user.id;
