@@ -50,3 +50,11 @@ c No assignments</br>
 d No assignments</br>
 e No assignments</br>
 f Redux 7.9-7.13 All done</br>
+
+## part 8
+
+a 8.1 - 8.3 done</br>
+b </br>
+c </br>
+d </br>
+e </br>
