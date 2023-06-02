@@ -102,6 +102,7 @@ const typeDefs = `
     bookCount: Int!
     authorCount: Int!
     allBooks: [Book!]!
+    allAuthors: [Author!]!
   }
 
   type Book {
@@ -111,6 +112,14 @@ const typeDefs = `
     id: ID!
     genres: [String]!
   }
+
+  type Author {
+    name: String!
+    born: String
+    id: ID!
+    bookCount: Int!
+  }
+
 `;
 
 const resolvers = {
@@ -118,6 +127,18 @@ const resolvers = {
     bookCount: () => books.length,
     authorCount: () => authors.length,
     allBooks: () => books,
+    allAuthors: () => authors,
+  },
+  Author: {
+    bookCount: (root) => {
+      let count = 0;
+      books.forEach((b) => {
+        if (b.author === root.name) {
+          count++;
+        }
+      });
+      return count;
+    },
   },
 };
 
