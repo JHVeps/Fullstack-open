@@ -1,0 +1,15 @@
+{
+  "name": "library-api",
+  "version": "1.0.0",
+  "description": "fulstack-open-part-8-assignments-a-graphql-palvelin-assignments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "joni vepsäläinen",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.7.1",
+    "graphql": "^16.6.0"
+  }
+}
