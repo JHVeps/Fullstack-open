@@ -24,7 +24,7 @@ const App = () => {
         </button>
         <button>
           <Link style={linkBtnStyle} to="/newBook">
-            new book
+            add book
           </Link>
         </button>
       </div>

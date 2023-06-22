@@ -3,7 +3,6 @@ import { useQuery } from "@apollo/client";
 
 const Authors = () => {
   const result = useQuery(ALL_AUTHORS);
-  //const authors = [];
 
   if (result.loading) {
     return <div>loading...</div>;
