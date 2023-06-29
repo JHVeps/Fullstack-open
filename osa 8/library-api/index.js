@@ -148,18 +148,28 @@ const { v1: uuid } = require("uuid");
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
+    // bookCount: () => books.length,
+    // authorCount: () => authors.length,
+    authorCount: async () => {
+      const authors = await Author.find({});
+      console.log("authors.length: ", authors.length);
+      return authors.length;
+    },
+    bookCount: async () => {
+      const books = await Book.find({});
+      console.log("books.length: ", books.length);
+      return books.length;
+    },
     allBooks: async (root, args) => {
+      const allBooks = await Book.find({}).populate("author");
       if (!args.author && !args.genre) {
-        const allBooks = await Book.find({}).populate("author");
         return allBooks;
       }
       if (args.author) {
-        return books.filter((book) => book.author === args.author);
+        return allBooks.filter((book) => book.author.name === args.author);
       }
       if (args.genre) {
-        return books.filter((book) => book.genres.includes(args.genre));
+        return allBooks.filter((book) => book.genres.includes(args.genre));
       }
     },
     // allAuthors: () => authors,
@@ -169,13 +179,20 @@ const resolvers = {
     },
   },
   Author: {
-    bookCount: (root) => {
+    bookCount: async (root) => {
       let count = 0;
-      books.forEach((b) => {
-        if (b.author === root.name) {
+      const allBooks = await Book.find({}).populate("author");
+      console.log("allbooks: ", allBooks);
+      allBooks.forEach((b) => {
+        if (b.author.name === root.name) {
           count++;
         }
       });
+      // books.forEach((b) => {
+      //   if (b.author === root.name) {
+      //     count++;
+      //   }
+      // });
       return count;
     },
   },
