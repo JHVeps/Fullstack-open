@@ -7,7 +7,7 @@ const EditAuthor = () => {
   const [born, setBorn] = useState("");
   const [name, setName] = useState("");
 
-  const [changeBYear, result] = useMutation(EDIT_AUTHOR, {
+  const [changeBirthYear, result] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
   });
 
@@ -27,7 +27,7 @@ const EditAuthor = () => {
       label: author.name,
     }));
 
-    // Update the selectedOption if the previously selected option is not available in the updated options
+    // Update the name if the previously selected option is not available in the updated options
     if (
       name &&
       !options.find((option) => option.value === name.value) &&
@@ -41,7 +41,9 @@ const EditAuthor = () => {
   const submit = async (event) => {
     event.preventDefault();
 
-    changeBYear({ variables: { name: name.value, setBornTo: parseInt(born) } });
+    changeBirthYear({
+      variables: { name: name.value, setBornTo: parseInt(born) },
+    });
 
     setName("");
     setBorn("");

@@ -4,13 +4,18 @@
   "description": "fulstack-open-part-8-assignments-a-graphql-palvelin-assignments",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
   },
   "author": "joni vepsäläinen",
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.7.1",
     "apollo-server": "^3.12.0",
-    "graphql": "^16.6.0"
+    "dotenv": "^16.3.1",
+    "graphql": "^16.6.0",
+    "mongoose": "^7.3.1",
+    "mongoose-unique-validator": "^4.0.0",
+    "nodemon": "^2.0.22"
   }
 }

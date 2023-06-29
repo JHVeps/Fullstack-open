@@ -13,7 +13,7 @@ const App = () => {
     <Router>
       <div>
         <button>
-          <Link style={linkBtnStyle} to="/authors">
+          <Link style={linkBtnStyle} to="/">
             authors
           </Link>
         </button>
@@ -29,7 +29,7 @@ const App = () => {
         </button>
       </div>
       <Routes>
-        <Route path="/authors" element={<Authors />} />
+        <Route path="/" element={<Authors />} />
         <Route path="/books" element={<Books />} />
         <Route path="/newBook" element={<NewBook />} />
       </Routes>
