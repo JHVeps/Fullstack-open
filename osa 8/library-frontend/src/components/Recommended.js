@@ -26,6 +26,7 @@ const Recommended = () => {
         books in your favorite genre <b>{favoriteGenre}</b>
       </p>
       <div>
+        <h2>books</h2>
         <table>
           <tbody>
             <tr>

@@ -184,18 +184,33 @@ const resolvers = {
       console.log("books.length: ", books.length);
       return books.length;
     },
+    // allBooks: async (root, args) => {
+    //   const allBooks = await Book.find({}).populate("author");
+    //   if (!args.author && !args.genre) {
+    //     return allBooks;
+    //   }
+    //   if (args.author) {
+    //     return allBooks.filter((book) => book.author.name === args.author);
+    //   }
+    //   if (args.genre) {
+    //     return allBooks.filter((book) => book.genres.includes(args.genre));
+    //   }
+    // },
     allBooks: async (root, args) => {
-      const allBooks = await Book.find({}).populate("author");
-      if (!args.author && !args.genre) {
-        return allBooks;
-      }
+      let filter = {};
+
       if (args.author) {
-        return allBooks.filter((book) => book.author.name === args.author);
+        filter["author.name"] = args.author;
       }
-      if (args.genre) {
-        return allBooks.filter((book) => book.genres.includes(args.genre));
+
+      if (args.genre && args.genre !== "all genres") {
+        filter.genres = args.genre;
       }
+
+      const allBooks = await Book.find(filter).populate("author");
+      return allBooks;
     },
+
     // allAuthors: () => authors,
     allAuthors: async () => {
       const allAuthors = await Author.find({});
