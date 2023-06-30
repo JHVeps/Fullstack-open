@@ -6,6 +6,7 @@ import NewBook from "./components/NewBook";
 import Login from "./components/Login";
 import { useApolloClient } from "@apollo/client";
 import Notify from "./components/Notify";
+import Recommended from "./components/Recommended";
 
 const App = () => {
   const linkBtnStyle = {
@@ -82,6 +83,11 @@ const App = () => {
             add book
           </Link>
         </button>
+        <button>
+          <Link style={linkBtnStyle} to="/recommend">
+            recommend
+          </Link>
+        </button>
         <button onClick={logout}>logout</button>
       </div>
       <Routes>
@@ -89,6 +95,7 @@ const App = () => {
         <Route path="/" element={<Authors setError={notify} />} />
         <Route path="/books" element={<Books />} />
         <Route path="/newBook" element={<NewBook setError={notify} />} />
+        <Route path="/recommend" element={<Recommended />} />
       </Routes>
     </Router>
   );
