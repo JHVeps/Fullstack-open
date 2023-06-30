@@ -3,11 +3,26 @@ import { useMutation, useQuery } from "@apollo/client";
 import { ALL_AUTHORS, EDIT_AUTHOR } from "../queries";
 import Select from "react-select";
 
-const EditAuthor = () => {
+const EditAuthor = ({ setError }) => {
   const [born, setBorn] = useState("");
   const [name, setName] = useState("");
 
   const [changeBirthYear, result] = useMutation(EDIT_AUTHOR, {
+    onError: (error) => {
+      if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+        const errors = error.graphQLErrors[0].extensions?.error?.errors;
+        if (errors) {
+          const messages = Object.values(errors)
+            .map((e) => e.message)
+            .join("\n");
+          setError(messages);
+        } else {
+          setError("An unknown error occurred.");
+        }
+      } else {
+        setError("An unknown error occurred.");
+      }
+    },
     refetchQueries: [{ query: ALL_AUTHORS }],
   });
 
@@ -34,6 +49,7 @@ const EditAuthor = () => {
       result.data &&
       result.data.editAuthor === null
     ) {
+      setError("author not found");
       setName(null);
     }
   }, [allAuthors.data, name, result.data]); // eslint-disable-line

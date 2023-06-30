@@ -251,7 +251,7 @@ const resolvers = {
     addBook: async (root, args, context) => {
       const authorName = args.author;
       const currentUser = context.currentUser;
-      // Check if the author already exists
+      console.log("current user: ", currentUser);
 
       if (!currentUser) {
         throw new GraphQLError("not authenticated", {
@@ -306,6 +306,7 @@ const resolvers = {
 
     editAuthor: async (root, args, context) => {
       const currentUser = context.currentUser;
+      console.log("current user: ", currentUser);
       if (!currentUser) {
         throw new GraphQLError("not authenticated", {
           extensions: {

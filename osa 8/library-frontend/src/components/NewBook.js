@@ -2,21 +2,48 @@ import { useState } from "react";
 import { ALL_BOOKS, CREATE_BOOK, ALL_AUTHORS } from "../queries";
 import { useMutation } from "@apollo/client";
 
-const NewBook = () => {
+const NewBook = ({ setError }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [published, setPublished] = useState("");
   const [genre, setGenre] = useState("");
   const [genres, setGenres] = useState([]);
 
-  const [createBook] = useMutation(CREATE_BOOK, {
+  const [addBook] = useMutation(CREATE_BOOK, {
+    onError: (error) => {
+      if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+        const extensions = error.graphQLErrors[0].extensions;
+        if (extensions) {
+          const errors = extensions.error.errors;
+          if (errors) {
+            const messages = Object.values(errors)
+              .map((e) => e.message)
+              .join("\n");
+            setError(messages);
+          } else {
+            setError("An unknown error occurred.");
+          }
+        } else {
+          setError("An unknown error occurred.");
+        }
+      } else {
+        setError("An unknown error occurred.");
+      }
+    },
     refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    // update: (cache, response) => {
+    //   cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+    //     return {
+    //       allBooks: allBooks.concat(response.data.addBook),
+    //     }
+    //   })
+    // },
   });
 
   const submit = async (event) => {
     event.preventDefault();
 
-    createBook({
+    addBook({
       variables: { title, published: parseInt(published), author, genres },
     });
 

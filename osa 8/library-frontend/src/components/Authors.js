@@ -2,7 +2,7 @@ import { ALL_AUTHORS } from "../queries";
 import { useQuery } from "@apollo/client";
 import EditAuthor from "./EditAuthor";
 
-const Authors = () => {
+const Authors = ({ setError }) => {
   const result = useQuery(ALL_AUTHORS);
 
   if (result.loading) {
@@ -28,7 +28,7 @@ const Authors = () => {
           ))}
         </tbody>
       </table>
-      <EditAuthor />
+      <EditAuthor setError={setError} />
     </div>
   );
 };
