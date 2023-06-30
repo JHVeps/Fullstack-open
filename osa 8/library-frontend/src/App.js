@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery } from "@apollo/client";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
@@ -7,6 +8,7 @@ import Login from "./components/Login";
 import { useApolloClient } from "@apollo/client";
 import Notify from "./components/Notify";
 import Recommended from "./components/Recommended";
+import { ALL_BOOKS } from "./queries";
 
 const App = () => {
   const linkBtnStyle = {
@@ -30,6 +32,19 @@ const App = () => {
       setErrorMessage(null);
     }, 10000);
   };
+
+  const { loading, data } = useQuery(ALL_BOOKS);
+  let genres = ["all genres"];
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
+
+  data.allBooks.forEach((book) => {
+    genres = [...genres, ...book.genres];
+  });
+
+  const uniqueGenres = Array.from(new Set(genres)).sort();
 
   if (!token) {
     return (
@@ -58,7 +73,7 @@ const App = () => {
             element={<Login setToken={setToken} setError={notify} />}
           />
           <Route path="/" element={<Authors setError={notify} />} />
-          <Route path="/books" element={<Books />} />
+          <Route path="/books" element={<Books genres={uniqueGenres} />} />
         </Routes>
       </Router>
     );
@@ -93,7 +108,7 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path="/" element={<Authors setError={notify} />} />
-        <Route path="/books" element={<Books />} />
+        <Route path="/books" element={<Books genres={uniqueGenres} />} />
         <Route path="/newBook" element={<NewBook setError={notify} />} />
         <Route path="/recommend" element={<Recommended />} />
       </Routes>

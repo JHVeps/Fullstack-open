@@ -1,21 +1,8 @@
 import { GET_BOOKS_BY_GENRE } from "../queries";
 import { useQuery } from "@apollo/client";
 
-const Books = () => {
+const Books = ({ genres }) => {
   const { loading, data, refetch } = useQuery(GET_BOOKS_BY_GENRE);
-  let genres = [
-    "Conspiracy",
-    "Cosmic",
-    "Detective fiction",
-    "Fantasy",
-    "Mystery",
-    "fiction",
-    "Thriller",
-    "classic",
-    "crime",
-    "testing",
-    "all genres",
-  ];
 
   if (loading) {
     return <div>loading...</div>;
