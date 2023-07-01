@@ -56,5 +56,5 @@ f Redux 7.9-7.13 All done</br>
 a All done</br>
 b All done</br>
 c All done</br>
-d 8.23 - 8.25 done</br>
-e </br>
+d All done</br>
+e All done</br>
