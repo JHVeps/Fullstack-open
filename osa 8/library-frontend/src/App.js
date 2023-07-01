@@ -5,10 +5,28 @@ import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import Login from "./components/Login";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useSubscription } from "@apollo/client";
 import Notify from "./components/Notify";
 import Recommended from "./components/Recommended";
-import { ALL_BOOKS } from "./queries";
+import { ALL_BOOKS, BOOK_ADDED } from "./queries";
+
+export const updateCache = (cache, query, addedBook) => {
+  // helper that is used to eliminate saving same person twice
+  console.log("Updating cache with added book:", addedBook);
+  const uniqByTitle = (a) => {
+    let seen = new Set();
+    return a.filter((item) => {
+      let k = item.title;
+      return seen.has(k) ? false : seen.add(k);
+    });
+  };
+
+  cache.updateQuery(query, ({ allBooks }) => {
+    return {
+      allBooks: uniqByTitle(allBooks.concat(addedBook)),
+    };
+  });
+};
 
 const App = () => {
   const linkBtnStyle = {
@@ -16,7 +34,7 @@ const App = () => {
     color: "black",
   };
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState(null);
   const [token, setToken] = useState(null);
   const client = useApolloClient();
 
@@ -27,13 +45,24 @@ const App = () => {
   };
 
   const notify = (message) => {
-    setErrorMessage(message);
+    setMessage(message);
     setTimeout(() => {
-      setErrorMessage(null);
+      setMessage(null);
     }, 10000);
   };
 
-  const { loading, data } = useQuery(ALL_BOOKS);
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      const addedBook = data.data.bookAdded;
+      notify(`added ${addedBook.title}`);
+      console.log(`added, ${addedBook.title}`);
+      updateCache(client.cache, { query: ALL_BOOKS }, addedBook);
+    },
+  });
+
+  const { loading, data } = useQuery(ALL_BOOKS, {
+    fetchPolicy: "cache-and-network",
+  });
   let genres = ["all genres"];
 
   if (loading) {
@@ -50,7 +79,7 @@ const App = () => {
     return (
       <Router>
         <div>
-          <Notify errorMessage={errorMessage} />
+          <Notify message={message} />
           <button>
             <Link style={linkBtnStyle} to="/">
               authors
@@ -82,7 +111,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Notify errorMessage={errorMessage} />
+        <Notify message={message} />
         <button>
           <Link style={linkBtnStyle} to="/">
             authors

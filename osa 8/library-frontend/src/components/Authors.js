@@ -3,7 +3,9 @@ import { useQuery } from "@apollo/client";
 import EditAuthor from "./EditAuthor";
 
 const Authors = ({ setError }) => {
-  const { loading, data } = useQuery(ALL_AUTHORS);
+  const { loading, data } = useQuery(ALL_AUTHORS, {
+    fetchPolicy: "cache-and-network",
+  });
 
   if (loading) {
     return <div>loading...</div>;

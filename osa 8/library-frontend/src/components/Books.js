@@ -2,7 +2,9 @@ import { GET_BOOKS_BY_GENRE } from "../queries";
 import { useQuery } from "@apollo/client";
 
 const Books = ({ genres }) => {
-  const { loading, data, refetch } = useQuery(GET_BOOKS_BY_GENRE);
+  const { loading, data, refetch } = useQuery(GET_BOOKS_BY_GENRE, {
+    fetchPolicy: "cache-and-network",
+  });
 
   if (loading) {
     return <div>loading...</div>;

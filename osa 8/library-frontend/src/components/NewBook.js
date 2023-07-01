@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ALL_BOOKS, CREATE_BOOK, ALL_AUTHORS } from "../queries";
 import { useMutation } from "@apollo/client";
+import { updateCache } from "../App";
 
 const NewBook = ({ setError }) => {
   const [title, setTitle] = useState("");
@@ -29,6 +30,9 @@ const NewBook = ({ setError }) => {
       } else {
         setError("An unknown error occurred.");
       }
+    },
+    update: (cache, response) => {
+      updateCache(cache, { query: ALL_BOOKS }, response.data.addBook);
     },
     refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
     // update: (cache, response) => {
