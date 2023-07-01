@@ -51,8 +51,14 @@ const resolvers = {
     },
 
     // allAuthors: () => authors,
+    // allAuthors: async () => {
+    //   const allAuthors = await Author.find({});
+    //   return allAuthors;
+    // },
+    //
+    // N+1 issue solution
     allAuthors: async () => {
-      const allAuthors = await Author.find({});
+      const allAuthors = await Author.find({}).populate("authorOf");
       return allAuthors;
     },
   },
