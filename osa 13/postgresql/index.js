@@ -1,13 +1,10 @@
 require("dotenv").config();
-const { Sequelize } = require("sequelize");
 
 const express = require("express");
 const { Blog } = require("./models/blog");
 const app = express();
 
 app.use(express.json());
-
-const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 app.get("/api/blogs", async (req, res) => {
   try {
