@@ -1,3 +1,9 @@
+docker run -e POSTGRES_PASSWORD=<password> -p 5432:5432 postgres
+
+docker ps
+
+docker exec -it <password> psql -U postgres postgres
+
 CREATE TABLE blogs (
     id SERIAL PRIMARY KEY,
     author TEXT,
@@ -11,3 +17,4 @@ INSERT INTO blogs (author, url, title) VALUES ('Blog Adder', 'localhost', 'First
 INSERT INTO blogs (author, url, title) VALUES ('Adder Of Blogs', 'localhost', 'Second Blog Added');
 
 SELECT * FROM blogs;
+

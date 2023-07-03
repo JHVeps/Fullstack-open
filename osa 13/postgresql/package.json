@@ -1,5 +1,5 @@
 {
-  "name": "postgesql",
+  "name": "postgresql",
   "version": "1.0.0",
   "description": "postgres-db-app",
   "main": "index.js",
@@ -7,5 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jhveps",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pg": "^8.11.1",
+    "sequelize": "^6.32.1"
+  }
 }
