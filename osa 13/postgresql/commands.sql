@@ -18,3 +18,11 @@ INSERT INTO blogs (author, url, title) VALUES ('Adder Of Blogs', 'localhost', 'S
 
 SELECT * FROM blogs;
 
+docker exec -it <password> psql -U postgres postgres
+
+DROP TABLE blogs;
+
+\d
+
+
+
