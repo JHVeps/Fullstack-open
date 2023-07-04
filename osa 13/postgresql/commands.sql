@@ -24,5 +24,9 @@ DROP TABLE blogs;
 
 \d
 
+netstat -ano | findstr :5432
+
+
+taskkill /PID <PID> /F
 
 

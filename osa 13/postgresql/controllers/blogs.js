@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const { Blog } = require("../models");
 
 //middleware for finding blog
@@ -14,13 +13,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
-  try {
-    const blog = await Blog.create(req.body);
-    res.json(blog);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
+  const blog = await Blog.create(req.body);
+  res.json(blog);
 });
 
 router.delete("/:id", blogFinder, async (req, res) => {
@@ -34,10 +28,60 @@ router.put("/:id", blogFinder, async (req, res) => {
   if (req.blog) {
     req.blog.likes = req.blog.likes + req.body.likes;
     await req.blog.save();
-    res.json(req.blog);
+    res.json(req.blog.likes);
   } else {
     res.status(404).end();
   }
 });
 
 module.exports = router;
+
+// use code below if not using express-async-errors
+// const router = require("express").Router();
+// const { Blog } = require("../models");
+// const { blogFinder } = require("../middlewares");
+
+// router.get("/", async (req, res, next) => {
+//   try {
+//     const blogs = await Blog.findAll();
+//     res.json(blogs);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// router.post("/", async (req, res, next) => {
+//   try {
+//     const blog = await Blog.create(req.body);
+//     res.json(blog);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// router.delete("/:id", blogFinder, async (req, res, next) => {
+//   try {
+//     if (req.blog) {
+//       await req.blog.destroy();
+//     }
+//     res.status(204).end();
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// router.put("/:id", blogFinder, async (req, res, next) => {
+//   try {
+//     if (req.blog) {
+//       req.blog.likes = req.blog.likes + req.body.likes;
+//       await req.blog.save();
+//       res.json(req.blog);
+//     } else {
+//       res.status(404).end();
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// module.exports = router;
