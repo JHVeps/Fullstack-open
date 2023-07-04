@@ -44,11 +44,14 @@ router.post("/", tokenExtractor, async (req, res) => {
   res.json(blog);
 });
 
-router.delete("/:id", blogFinder, async (req, res) => {
-  if (req.blog) {
+router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
+  const user = await User.findByPk(req.decodedToken.id);
+  if (user.id === req.blog.userId) {
     await req.blog.destroy();
+    res.status(204).end();
+  } else {
+    res.status(404).end();
   }
-  res.status(204).end();
 });
 
 router.put("/:id", blogFinder, async (req, res) => {
