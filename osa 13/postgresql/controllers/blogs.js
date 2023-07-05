@@ -50,6 +50,10 @@ router.get("/", async (req, res) => {
       model: User,
     },
     where,
+    order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ["likes", "DESC"],
+    ],
   });
   res.json(blogs);
 });
