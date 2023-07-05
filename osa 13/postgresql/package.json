@@ -4,7 +4,7 @@
   "description": "postgres-db-app",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jhveps",
@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.22",
     "pg": "^8.11.1",
-    "sequelize": "^6.32.1"
+    "sequelize": "^6.32.1",
+    "umzug": "^3.2.1"
   }
 }

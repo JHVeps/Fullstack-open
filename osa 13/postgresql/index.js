@@ -11,7 +11,7 @@ const usersRouter = require("./controllers/users");
 const authorsRouter = require("./controllers/authors");
 const loginRouter = require("./controllers/login");
 
-const { errorHandler, unknownEndpoint } = require("./middlewares");
+const { errorHandler, unknownEndpoint } = require("./util/middlewares");
 
 app.use(express.json());
 
