@@ -1,3 +1,6 @@
+const jwt = require("jsonwebtoken");
+const { SECRET } = require("./config.js");
+
 const errorHandler = (error, request, response, next) => {
   if (error.name === "SequelizeValidationError") {
     const errorMessage = error.errors[0].message;
