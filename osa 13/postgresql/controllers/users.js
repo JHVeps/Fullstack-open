@@ -31,6 +31,7 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const user = await User.findByPk(req.params.id, {
     attributes: { exclude: ["created_at", "updated_at"] },
+
     include: [
       {
         model: Blog,
@@ -38,11 +39,13 @@ router.get("/:id", async (req, res) => {
           exclude: ["created_at", "updated_at", "userId", "isRead"],
         },
         as: "Readings", // Use the alias "Readings" for the many-to-many association
-        through: { attributes: [] }, // Exclude attributes from the join table
+        through: {
+          attributes: ["id", "read"], // Include only the id property from the through table (readlist)
+        },
         include: [
           {
             model: User,
-            attributes: ["id", "username", "name"], // Include only the desired attributes from the User model
+            attributes: ["username", "name"], // Include only the desired attributes from the User model
             as: "Adder", // Use the alias "Adder" for the belongsTo association
           },
         ],
@@ -50,11 +53,7 @@ router.get("/:id", async (req, res) => {
     ],
   });
 
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).end();
-  }
+  res.json(user);
 });
 
 router.put("/:username", async (req, res) => {

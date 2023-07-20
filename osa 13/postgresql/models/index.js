@@ -5,13 +5,9 @@ const ReadList = require("./readlist");
 
 // Blog.sync();
 // User.sync();
-
 // Define the first association with the alias "Author"
 Blog.belongsTo(User, { as: "Adder", foreignKey: "userId" });
 User.hasMany(Blog, { foreignKey: "userId" });
-
-// Blog.sync({ alter: true });
-// User.sync({ alter: true });
 
 // Define the second association with the alias "Readers" and "Readings"
 Blog.belongsToMany(User, {

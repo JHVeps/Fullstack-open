@@ -53,10 +53,6 @@ Blog.init(
       field: "user_id",
       references: { model: "users", key: "id" },
     },
-    isRead: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
   },
   {
     sequelize,
