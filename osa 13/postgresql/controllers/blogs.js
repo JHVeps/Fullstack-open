@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { Op } = require("sequelize");
-const { Blog, User } = require("../models");
+const { Blog, User, Session } = require("../models");
 
 const jwt = require("jsonwebtoken");
 const { SECRET } = require("../util/config");
@@ -69,24 +69,47 @@ router.get("/", async (req, res) => {
 router.post("/", tokenExtractor, async (req, res) => {
   console.log(req.body);
   const user = await User.findByPk(req.decodedToken.id);
-  const blog = await Blog.create({
-    ...req.body,
-    userId: user.id,
-    created_at: new Date(),
-    updated_at: new Date(),
-  });
-  //const blog = await Blog.create(req.body);
-  console.log(blog);
-  res.json(blog);
-});
+  const session = await Session.findOne({ where: { username: user.username } });
 
-router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
-  const user = await User.findByPk(req.decodedToken.id);
-  if (user.id === req.blog.userId) {
-    await req.blog.destroy();
-    res.status(204).end();
+  if (session.username === user.username) {
+    const blog = await Blog.create({
+      ...req.body,
+      userId: user.id,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
+    //const blog = await Blog.create(req.body);
+    console.log(blog);
+    res.json(blog);
   } else {
     res.status(404).end();
+  }
+});
+
+// router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
+//   const user = await User.findByPk(req.decodedToken.id);
+
+//   if (user.id === req.blog.userId) {
+//     await req.blog.destroy();
+//     res.status(204).end();
+//   } else {
+//     res.status(404).end();
+//   }
+// });
+
+router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.decodedToken.id);
+
+    if (user.id === req.blog.userId) {
+      await req.blog.destroy();
+      res.status(204).end();
+    } else {
+      res.status(404).end();
+    }
+  } catch (error) {
+    console.error("Error occurred during deletion:", error);
+    res.status(500).json({ error: "An error occurred during deletion." });
   }
 });
 

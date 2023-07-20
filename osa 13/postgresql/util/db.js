@@ -25,7 +25,7 @@ const connectToDatabase = async () => {
   try {
     await sequelize.authenticate();
     await runMigrations();
-    await sequelize.sync(); // Add this line to synchronize models with the database
+    await sequelize.sync();
     console.log("database connected");
   } catch (err) {
     console.log("connecting database failed", err);

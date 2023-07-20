@@ -24,7 +24,11 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const user = await User.create(req.body);
+  const user = await User.create({
+    ...req.body,
+    created_at: new Date(),
+    updated_at: new Date(),
+  });
   res.json(user);
 });
 
