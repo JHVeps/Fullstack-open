@@ -48,6 +48,15 @@ Blog.init(
     updated_at: {
       type: DataTypes.DATE,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      field: "user_id",
+      references: { model: "users", key: "id" },
+    },
+    isRead: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     sequelize,

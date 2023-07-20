@@ -56,7 +56,7 @@ module.exports = {
         type: DataTypes.DATE,
       },
     });
-    await queryInterface.addColumn("blogs", "user_id", {
+    await queryInterface.addColumn("blogs", "userId", {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: { model: "users", key: "id" },

@@ -2,7 +2,9 @@ const Sequelize = require("sequelize");
 const { DATABASE_URL } = require("./config");
 const { Umzug, SequelizeStorage } = require("umzug");
 
-const sequelize = new Sequelize(DATABASE_URL);
+const sequelize = new Sequelize(DATABASE_URL, {
+  logging: console.log, // Add this line to enable logging
+});
 
 const runMigrations = async () => {
   const migrator = new Umzug({
@@ -23,6 +25,7 @@ const connectToDatabase = async () => {
   try {
     await sequelize.authenticate();
     await runMigrations();
+    await sequelize.sync(); // Add this line to synchronize models with the database
     console.log("database connected");
   } catch (err) {
     console.log("connecting database failed", err);

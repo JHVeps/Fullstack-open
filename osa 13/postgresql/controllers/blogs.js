@@ -32,9 +32,19 @@ router.get("/", async (req, res) => {
   }
 
   const blogs = await Blog.findAll({
-    include: {
-      model: User,
-    },
+    attributes: { exclude: ["userId"] },
+    include: [
+      {
+        model: User,
+        attributes: { exclude: ["id", "created_at", "updated_at"] },
+        as: "Adder",
+      }, // Include the user who added the blog with the alias "Adder"
+      {
+        model: User,
+        attributes: { exclude: ["id", "created_at", "updated_at"] },
+        as: "Readers",
+      }, // Include the readers with the alias "Readers"
+    ],
     where,
     order: [
       // Will escape title and validate DESC against a list of valid direction parameters
@@ -42,6 +52,18 @@ router.get("/", async (req, res) => {
     ],
   });
   res.json(blogs);
+
+  //   const blogs = await Blog.findAll({
+  //     include: {
+  //       model: User,
+  //     },
+  //     where,
+  //     order: [
+  //       // Will escape title and validate DESC against a list of valid direction parameters
+  //       ["likes", "DESC"],
+  //     ],
+  //   });
+  //   res.json(blogs);
 });
 
 router.post("/", tokenExtractor, async (req, res) => {
@@ -50,7 +72,8 @@ router.post("/", tokenExtractor, async (req, res) => {
   const blog = await Blog.create({
     ...req.body,
     userId: user.id,
-    date: new Date(),
+    created_at: new Date(),
+    updated_at: new Date(),
   });
   //const blog = await Blog.create(req.body);
   console.log(blog);

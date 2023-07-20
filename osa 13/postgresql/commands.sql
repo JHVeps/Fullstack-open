@@ -2,7 +2,7 @@ docker run -e POSTGRES_PASSWORD=<password> -p 5432:5432 postgres
 
 docker ps
 
-docker exec -it <password> psql -U postgres postgres
+docker exec -it 8f51b69c8a71  psql -U postgres postgres
 
 CREATE TABLE blogs (
     id SERIAL PRIMARY KEY,
@@ -18,14 +18,11 @@ INSERT INTO blogs (author, url, title) VALUES ('Adder Of Blogs', 'localhost', 'S
 
 SELECT * FROM blogs;
 
-docker exec -it <password> psql -U postgres postgres
+docker exec -it <CONTAINER ID> psql -U postgres postgres
 
 DROP TABLE blogs;
 
 \d
-
-netstat -ano | findstr :5432
-
 
 taskkill /PID <PID> /F
 
