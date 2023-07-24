@@ -1,0 +1,13 @@
+{
+  "name": "fs-open-typescript",
+  "version": "1.0.0",
+  "description": "fullstack open part 9 TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+      "ts-node": "ts-node",
+      "calculateBmi": "ts-node bmiCalculator.ts"
+  },
+  "author": "jhveps",
+  "license": "ISC"
+}
