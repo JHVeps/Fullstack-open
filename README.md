@@ -59,6 +59,15 @@ c All done</br>
 d All done</br>
 e All done</br>
 
+## part 9
+
+a
+b
+c
+d
+e
+f
+
 ## part 13
 
 a All done</br>
